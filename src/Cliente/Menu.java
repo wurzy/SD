@@ -59,22 +59,28 @@ public class Menu {
     }
 
     public Integer choice() {
-        int choice = Integer.parseInt(input.nextLine());
-        switch(state){
-            case UNAUTH:
-                while(choice<0 || choice >2) {
-                    System.out.print("Opção: ");
-                    choice = Integer.parseInt(input.nextLine());
-                }
-                break;
-            case AUTH:
-                while(choice<0 || choice >3){
-                    System.out.print("Opção: ");
-                    choice = Integer.parseInt(input.nextLine());
-                }
-                break;
-            default:
-                System.out.println("This is my final messsage... goodbye");
+        int choice;
+        try {
+            choice = Integer.parseInt(input.nextLine());
+            switch(state){
+                case UNAUTH:
+                    while(choice<0 || choice >2) {
+                        System.out.print("Opção: ");
+                        choice = Integer.parseInt(input.nextLine());
+                    }
+                    break;
+                case AUTH:
+                    while(choice<0 || choice >3){
+                        System.out.print("Opção: ");
+                        choice = Integer.parseInt(input.nextLine());
+                    }
+                    break;
+                default:
+                    System.out.println("This is my final messsage... goodbye");
+            }
+        }
+        catch(Exception e) {
+            choice = -1;
         }
         return choice;
     }
