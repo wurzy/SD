@@ -85,6 +85,12 @@ public class Menu {
         return choice;
     }
 
+    public String readString(String question) {
+        System.out.println(question);
+        return input.nextLine();
+    }
+
+    // Getters e Setters
     public State getState() {
         return state;
     }
