@@ -23,7 +23,6 @@ public class Worker implements Runnable {
 
     public void run() {
         String input;
-        int i = 0;
         while(true) {
             try {
                 input=in.readLine();
@@ -33,15 +32,14 @@ public class Worker implements Runnable {
                     s.close();
                     break;
                 }
-                parse(input,i);
-                i++;
+                parse(input);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void parse(String input,int i){
+    private void parse(String input){
         String[] partes = input.split("-",2);
         switch(partes[0]){
             case "LOGIN":
@@ -59,7 +57,7 @@ public class Worker implements Runnable {
             default:
                 ArrayList<String> list = new ArrayList<>();
                 Collections.addAll(list,"pop","wow","rap");
-                Musica musica = new Musica("Amazing","Kanye West"+i,2007,list);
+                Musica musica = new Musica("Amazing","Kanye West",2007,list);
                 app.addMusica(musica);
                 System.out.println(app.getAllMusicas().toString());
                 out.println(app.getAllMusicas().toString());
