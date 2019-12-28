@@ -44,6 +44,7 @@ public class Menu {
                         "| 1 - UPLOAD                                      |\n" +
                         "| 2 - DOWNLOAD                                    |\n" +
                         "| 3 - PROCURAR                                    |\n" +
+                        "| 4 - NOTIFICAÇOES                                |\n" +
                         "| 0 - LOGOUT                                      |\n" +
                         "+ ------------------------------------------------+\n"/*+ RESET*/);
                 break;

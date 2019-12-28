@@ -88,18 +88,29 @@ public class Worker implements Runnable {
     private void login(String s){
         String[] auth = s.split(",");
         boolean b = app.login(auth[0],auth[1]);
-        out.println(b);
+        if(b) {
+            System.out.println("Ok login");
+            out.println("LOGGEDIN");
+        }
+        else{
+            System.out.println("Not ok login");
+            out.println("DENIED");
+        }
+        //out.println(b);
         out.flush();
     }
 
     private void register(String s){
         String[] reg = s.split(",");
         boolean br = app.register(reg[0],reg[1]);
-        if(br) {
+        //System.out.println("Not ok reg");
+        if(!br) {
+            System.out.println("Not ok reg");
             out.println("DENIED");
         }
         else {
-            out.println("LOGGEDIN");
+            System.out.println("Ok reg");
+            out.println("SIGNEDUP");
         }
         //out.println(br);
         out.flush();

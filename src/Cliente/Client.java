@@ -18,8 +18,8 @@ public class Client {
         BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
         Menu menu = new Menu();
-        Writer writer = new Writer(menu,bw);
-        Reader reader = new Reader(menu,br);
+        Writer writer = new Writer(menu,bw,socket);
+        Reader reader = new Reader(menu,in);
 
         Thread t_reader = new Thread(reader);
         Thread t_writer = new Thread(writer);
@@ -101,7 +101,8 @@ public class Client {
             } catch (Exception e) {
                 System.err.println("File does not exist!");
             }
+            */
     }
-    */
+
 
 }

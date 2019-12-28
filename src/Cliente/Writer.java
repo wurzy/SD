@@ -3,16 +3,19 @@ package Cliente;
 // Imports
 import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Writer implements Runnable {
 
     // Variáveis de Instância
     private Menu menu;
     private BufferedWriter output;
+    private Socket sk;
 
-    public Writer(Menu m, BufferedWriter o) {
+    public Writer(Menu m, BufferedWriter o,Socket s) {
         output = o;
         menu = m;
+        this.sk = s;
     }
 
     // Está constantemente a ler a "choice" do user  da classe "Menu" e ...
@@ -37,7 +40,8 @@ public class Writer implements Runnable {
                     System.exit(0);
                 if (choice == 1) {
                     System.out.println("login");
-                    login_signup(1);
+                    //login_signup(1);
+                    enviarFicheiro(sk,"Amazing,Kanye,1999,ola%ola%ola%ola");
                 }
                 if (choice == 2) {
                     System.out.println("signup");
@@ -45,6 +49,7 @@ public class Writer implements Runnable {
                 }
                 break;
             case LOGGED:
+                //if(choice==0) System.exit(0);
                 break;
             case REGISTERING:
                 break;
@@ -75,9 +80,14 @@ public class Writer implements Runnable {
 
     private void enviarFicheiro(Socket s, String campos){
         try {
+            output.write("UPLOAD-");
+            output.newLine();
+            output.flush();
             //System.err.print("Enter file name: ");
-            String fileName = ".\\effects\\bruh.mp3"; // substituir aqui eventualmente
-
+            Scanner sc = new Scanner(System.in);
+            //String fileName = ".\\effects\\bruh.mp3"; // substituir aqui eventualmente
+            String fileName = ".\\effects\\" + sc.nextLine() + ".mp3";
+            // aqui tem de tar um readline()
             File myFile = new File(fileName);
             byte[] mybytearray = new byte[(int) myFile.length()];
 

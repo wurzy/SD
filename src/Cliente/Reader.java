@@ -20,10 +20,12 @@ public class Reader implements Runnable{
 
     // Está constantemente a ler do "BufferedReader" e ...
     public void run() {
+        String s;
         System.out.println("runReader");
         try {
-            while (input.readLine() != null) {
-                parseResponse(input.readLine());
+            while ((s= input.readLine()) != null) {
+                //s = input.readLine();
+                parseResponse(s);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,6 +45,7 @@ public class Reader implements Runnable{
                 menu.show();
                 break;
             case("SIGNEDUP"):
+                System.out.println("Hello world");
                 menu.setState(State.NOTLOGGED);
                 menu.show();
                 break;
