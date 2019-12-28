@@ -79,10 +79,25 @@ public class Reader implements Runnable{
                 recebeSearch();
                 menu.show();
                 break;
+            case("LEAVE"):
+                //menu.setState(State.NOTLOGGED);
+                leave();
+                //menu.show();
+                break;
             default:
                 System.out.println("NONE");
                 //menu.show();
         }
+    }
+
+    private void leave(){
+        try {
+            sock.close();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        System.exit(0);
     }
 
     // Cria uma diretoria temporária
@@ -148,4 +163,5 @@ public class Reader implements Runnable{
         menu.setState(State.LOGGED);
        // menu.show();
     }
+
 }

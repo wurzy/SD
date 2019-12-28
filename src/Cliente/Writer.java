@@ -40,8 +40,9 @@ public class Writer implements Runnable {
         switch (menu.getState()) {
         case NOTLOGGED:
             if (choice == 0) {
-                menu.clearScreen();
-                System.exit(0);
+                //menu.clearScreen();
+                //System.exit(0);
+                leave();
             }
             if (choice == 1)
                 login_signup(1);
@@ -147,6 +148,26 @@ public class Writer implements Runnable {
         //menu.clearScreen();
         menu.setState(State.NOTLOGGED);
         menu.show(); 
+    }
+
+    private void leave(){
+        try{
+            output.write("LEAVE-");
+            output.newLine();
+            output.flush();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        /*
+        try {
+            sk.shutdownOutput();
+            sk.shutdownInput();
+            sk.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        */
     }
 
     private void searching(){

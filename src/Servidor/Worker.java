@@ -77,6 +77,8 @@ public class Worker implements Runnable {
                 System.out.println("Entrei no search:)");
                 search(partes[1]);
                 break;
+            case "LEAVE":
+                leave();
             default:
                 System.out.println("Entrei no careices :)");
                 break;
@@ -229,6 +231,12 @@ public class Worker implements Runnable {
             //System.err.println("File does not exist!");
             e.printStackTrace();
         }
+    }
+
+    private void leave(){
+        System.out.println("Trying to leave");
+        out.println("LEAVE");
+        out.flush();
     }
 
 
