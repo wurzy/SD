@@ -9,8 +9,8 @@ import Cliente.Menu.State;
 public class Reader implements Runnable{
 
     // Variáveis de Instância
-    //Windows: private final String temp2 = "C:\\Users\\User\\AppData\\Local\\Temp\\SoundCloud\\cliente\\";
-    private final String temp2 = "/tmp/SoundCloud/cliente";
+    private final String temp2 = "C:\\Users\\User\\AppData\\Local\\Temp\\SoundCloud\\cliente\\"; // Windows
+    //private final String temp2 = "/tmp/SoundCloud/cliente";                                    // Linux
     private final int MAXSIZE = 500*1024;
     private Menu menu;
     private BufferedReader input;
@@ -36,33 +36,43 @@ public class Reader implements Runnable{
 
     // Dependendo da resposta do Server, muda o estado da classe Menu
     private synchronized void parseResponse(String response){
+        System.out.println("Parsing response");
         switch (response) {
             case("DENIED_1"):
+                System.out.println("DENIED1");
                 System.out.println("Username/Password inválidos!");
                 menu.show();
                 break;
             case("DENIED_2"):
+                System.out.println("DENIED2");
                 System.out.println("Username já existe!");
                 menu.show();
                 break;
             case ("LOGGEDIN"):
+                System.out.println("LGDIN");
                 menu.setState(State.LOGGED);
                 menu.show();
                 break;
             case("SIGNEDUP"):
+                System.out.println("SIGN");
                 menu.setState(State.NOTLOGGED);
                 menu.show();
                 break;
             case("UPLOADING"):
+                System.out.println("UPL");
                 menu.setState(State.UPLOADING);
+                menu.setState(State.LOGGED);
                 menu.show();
                 break;
             case("DOWNLOADING"):
+                System.out.println("DL");
                 menu.setState(State.DOWNLOADING);
                 recebeFicheiro(sock,"1");
+                menu.setState(State.LOGGED);
                 menu.show();
             default:
-                menu.show();
+                System.out.println("NONE");
+                //menu.show();
         }
     }
 

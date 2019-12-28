@@ -30,6 +30,7 @@ public class Menu {
         switch (state) {
             case NOTLOGGED:
                 //clearScreen();
+                System.out.println("State:" + this.state);
                 System.out.println("+----------------- MENU INICIAL -----------------+\n" +
                         "| 1 - LOG-IN                                     |\n" +
                         "| 2 - REGISTAR                                   |\n" +
@@ -38,6 +39,7 @@ public class Menu {
                 break;
             case LOGGED:
                 //clearScreen();
+                System.out.println("State:" + this.state);
                 System.out.println("+----------------- MENU CLIENTE ------------------+\n" +
                         "| 1 - UPLOAD                                      |\n" +
                         "| 2 - DOWNLOAD                                    |\n" +
@@ -47,15 +49,18 @@ public class Menu {
                         "+ ------------------------------------------------+\n");
                 break;
             case REGISTERING:
+                System.out.println("State:" + this.state);
                 System.out.println("+------------------- REGISTAR --------------------+\n" +
                         "|                                                 |\n" +
                         "|            A registar cliente....               |\n" +
                         "|                                                 |\n" +
                         "+ ------------------------------------------------+\n");
                 break;
-            case SEARCHING: 
+            case SEARCHING:
+                System.out.println("State:" + this.state);
                 break;
             case UPLOADING:
+                System.out.println("State:" + this.state);
                 System.out.println("+------------------- REGISTAR --------------------+\n" +
                         "|                                                 |\n" +
                         "|                   Uploading....                 |\n" +
@@ -63,6 +68,7 @@ public class Menu {
                         "+ ------------------------------------------------+\n");
                 break;
             case DOWNLOADING:
+                System.out.println("State:" + this.state);
                 System.out.println("+------------------- REGISTAR --------------------+\n" +
                         "|                                                 |\n" +
                         "|                  Downloading....                |\n" +
@@ -70,6 +76,7 @@ public class Menu {
                         "+ ------------------------------------------------+\n");
                 break;
         }
+        System.out.println("State:" + this.state);
         System.out.print("Opção: ");
     }
 

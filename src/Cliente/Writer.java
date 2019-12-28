@@ -59,12 +59,16 @@ public class Writer implements Runnable {
                 //notificacoes();
             break;
         case REGISTERING:
+            //menu.show();
             break;
         case SEARCHING:
+            //menu.show();
             break;
         case UPLOADING:
+            //menu.show();
             break;
         case DOWNLOADING:
+            //menu.show();
             break;
         }
     }

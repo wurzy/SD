@@ -29,15 +29,15 @@ public class Client {
         t_writer.start();
         //menu.show();
         
-        while(!(input=sc.nextLine()).equals("q")) {
-            out.println(input);
+        //while(!(input=sc.nextLine()).equals("q")) {
+            //out.println(input);
             //enviarFicheiro(".\\effects\\bruh.mp3",out);
             //out.println("UPLOAD-");
             //out.println("filename");
-            out.flush();
+            //out.flush();
             //enviarFicheiro(socket,"Amazing,Kanye,1999,ola%ola%ola%ola.mp3");
-            System.out.println("Server Sent: " + in.readLine());
-        }
+            //System.out.println("Server Sent: " + in.readLine());
+        //}
         
         //socket.shutdownOutput();
         //socket.shutdownInput();

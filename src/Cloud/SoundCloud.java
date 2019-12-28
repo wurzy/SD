@@ -2,7 +2,6 @@ package Cloud;
 
 import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.stream.Collectors;
 
 public class SoundCloud {
     private HashMap<String,String> utilizadores;

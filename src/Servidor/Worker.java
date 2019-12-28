@@ -10,8 +10,8 @@ import java.util.*;
 public class Worker implements Runnable {
 
     // Variáveis de Instância
-    // Windows: private final String temp = "C:\\Users\\User\\AppData\\Local\\Temp\\SoundCloud\\servidor\\";
-    private final String temp = "/temp/SoundCloud/servidor/";
+    private final String temp = "C:\\Users\\User\\AppData\\Local\\Temp\\SoundCloud\\servidor\\"; //Windows
+    //private final String temp = "/temp/SoundCloud/servidor/";     // Linux
     private final int MAXSIZE = 500*1024; // 500kb max
     private BufferedReader in;
     private PrintWriter out;
@@ -55,23 +55,30 @@ public class Worker implements Runnable {
 
     private void parse(String input){
         String[] partes = input.split("-",2);
+        System.out.println("Entrei no parse :)");
         switch(partes[0]){
             case "LOGIN":
+                System.out.println("Entrei no login :)");
                 login(partes[1]);
                 break;
             case "REGISTER":
+                System.out.println("Entrei no reg :)");
                 register(partes[1]);
                 break;
             case "UPLOAD":
+                System.out.println("Entrei no upl:)");
                 receiveFile(partes[1]);
                 break;
             case "DOWNLOAD":
+                System.out.println("Entrei no dl :)");
                 sendFile(partes[1]);
                 break;
             case "SEARCH":
+                System.out.println("Entrei no search:)");
                 search(partes[1]);
                 break;
             default:
+                System.out.println("Entrei no crl :)");
                 break;
         }
     }
@@ -177,8 +184,8 @@ public class Worker implements Runnable {
             out.println("DOWNLOADING");
             out.flush();
             System.out.println(temp + input + ".mp3");
-            //File myFile = new File(temp+input+".mp3");
-            File myFile = new File(temp+ "5.mp3"); // para ja fica estatico :)
+            File myFile = new File(temp+input+".mp3");
+            //File myFile = new File(temp+ "5.mp3"); // para ja fica estatico :)
             byte[] mybytearray = new byte[(int) myFile.length()];
             System.out.println(myFile.length());
 
@@ -202,7 +209,9 @@ public class Worker implements Runnable {
             dos.flush();
             System.out.println("File "+input+" sent to client.");
         } catch (Exception e) {
-            System.err.println("File does not exist!");
+
+            //System.err.println("File does not exist!");
+            e.printStackTrace();
         }
     }
 
