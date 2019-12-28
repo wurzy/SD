@@ -79,6 +79,7 @@ public class Worker implements Runnable {
                 break;
             case "LEAVE":
                 leave();
+                break;
             default:
                 System.out.println("Entrei no careices :)");
                 break;

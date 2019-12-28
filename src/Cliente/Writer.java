@@ -40,8 +40,6 @@ public class Writer implements Runnable {
         switch (menu.getState()) {
         case NOTLOGGED:
             if (choice == 0) {
-                //menu.clearScreen();
-                //System.exit(0);
                 leave();
             }
             if (choice == 1)
@@ -145,7 +143,6 @@ public class Writer implements Runnable {
     }
 
     private void logout() {
-        //menu.clearScreen();
         menu.setState(State.NOTLOGGED);
         menu.show(); 
     }
@@ -159,34 +156,20 @@ public class Writer implements Runnable {
         catch(Exception e) {
             e.printStackTrace();
         }
-        /*
-        try {
-            sk.shutdownOutput();
-            sk.shutdownInput();
-            sk.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
+
     }
 
     private void searching(){
-        //menu.clearScreen();
         String tags = menu.tags();
         String query = "SEARCH-"+tags;
-        //String password = menu.lerDadosUser("Password: ");
         try {
             output.write(query);
             output.newLine();
             output.flush();
-
         }
         catch(Exception e) {
             e.printStackTrace();
         }
-
-        //menu.setState(State.LOGGED);
-        //menu.show();
     }
 
 }

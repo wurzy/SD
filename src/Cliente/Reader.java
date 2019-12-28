@@ -80,9 +80,7 @@ public class Reader implements Runnable{
                 menu.show();
                 break;
             case("LEAVE"):
-                //menu.setState(State.NOTLOGGED);
                 leave();
-                //menu.show();
                 break;
             default:
                 System.out.println("NONE");
@@ -92,6 +90,8 @@ public class Reader implements Runnable{
 
     private void leave(){
         try {
+            sock.shutdownOutput();
+            sock.shutdownInput();
             sock.close();
         }
         catch(Exception e) {
