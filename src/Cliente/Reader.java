@@ -18,7 +18,7 @@ public class Reader implements Runnable{
         this.menu = menu;
     }
 
-    // Está constantemente a ler do "BufferedReader" e ... 
+    // Está constantemente a ler do "BufferedReader" e ...
     public void run() {
         System.out.println("runReader");
         try {

@@ -54,7 +54,7 @@ public class Menu {
                         "|                                                 |\n" +
                         "+ ------------------------------------------------+\n"/*+ RESET*/);
                 break;
-            case SEARCHING:
+            case SEARCHING: 
                 break;
             case UPLOADING:
                 break;
