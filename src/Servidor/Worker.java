@@ -78,7 +78,7 @@ public class Worker implements Runnable {
                 search(partes[1]);
                 break;
             default:
-                System.out.println("Entrei no crl :)");
+                System.out.println("Entrei no careices :)");
                 break;
         }
     }
@@ -113,8 +113,23 @@ public class Worker implements Runnable {
             search.add(tag);
         }
         Set<Musica> musicas = app.filterTag(search);
-        out.println(musicas);
+        Iterator<Musica> it = musicas.iterator();
+        out.println("SEARCHING");
         out.flush();
+        while(it.hasNext()) {
+            Musica m = it.next();
+            System.out.println(m);
+            out.println(m.toString() + " {" +m.getDownloads()+"}");
+        }
+       // musicas.stream()
+       //         .forEach(
+        //                musica->out.println(
+        //                        (musica.toString())+ " {" + musica.getDownloads()+"}")
+       //         );
+        //out.println(musicas);
+        out.println("end");
+        out.flush();
+        System.out.println("done searching");
     }
 
     private void createTempDirectory(){
@@ -127,8 +142,8 @@ public class Worker implements Runnable {
                 e.printStackTrace();
             }
         }
-        out.println("Existe o path");
-        out.flush();
+        //out.println("Existe o path");
+        //out.flush();
     }
 
     // Upload

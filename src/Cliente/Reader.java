@@ -4,6 +4,8 @@ package Cliente;
 import java.io.*;
 import java.net.Socket;
 import java.nio.file.*;
+import java.util.Scanner;
+
 import Cliente.Menu.State;
 
 public class Reader implements Runnable{
@@ -70,6 +72,13 @@ public class Reader implements Runnable{
                 recebeFicheiro(sock,"1");
                 menu.setState(State.LOGGED);
                 menu.show();
+                break;
+            case("SEARCHING"):
+                System.out.println("SRCH");
+                //menu.setState(State.SEARCHING);
+                recebeSearch();
+                menu.show();
+                break;
             default:
                 System.out.println("NONE");
                 //menu.show();
@@ -118,5 +127,25 @@ public class Reader implements Runnable{
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    private void recebeSearch(){
+        String musica = null;
+        //System.out.println("Resultados (q-Exit): ");
+        try {
+            while(!(musica=input.readLine()).equals("end")){
+                System.out.println(musica);
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        //String useless = menu.getConfirm();
+        //System.out.println(useless);
+        //Scanner sc = new Scanner(System.in);
+       // System.out.println("Introduza uma String para sair");
+        //sc.nextLine();
+        menu.setState(State.LOGGED);
+       // menu.show();
     }
 }

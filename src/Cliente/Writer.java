@@ -3,6 +3,8 @@ package Cliente;
 // Imports
 import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
+
 import Cliente.Menu.State;
 
 public class Writer implements Runnable {
@@ -54,7 +56,7 @@ public class Writer implements Runnable {
             if (choice == 2)
                 download();
             if (choice == 3)
-                //search();
+                searching();
             if (choice == 4)
                 //notificacoes();
             break;
@@ -62,7 +64,7 @@ public class Writer implements Runnable {
             //menu.show();
             break;
         case SEARCHING:
-            //menu.show();
+            //searching();
             break;
         case UPLOADING:
             //menu.show();
@@ -107,10 +109,10 @@ public class Writer implements Runnable {
             String nome = menu.lerDadosUser("Nome: ");
             String artista = menu.lerDadosUser("Artista: ");
             String ano = menu.lerDadosUser("Ano: ");
-            String tag = menu.lerDadosUser("Tag: ");
+            String tags = menu.lerTags();
             String file = menu.lerDadosUser("Filename: ");
             String fileName = ".\\effects\\" + file + ".mp3";
-            String query = nome+","+artista+","+ano+","+tag;
+            String query = nome+","+artista+","+ano+","+tags;
 
             File myFile = new File(fileName);
             byte[] mybytearray = new byte[(int) myFile.length()];
@@ -142,8 +144,28 @@ public class Writer implements Runnable {
     }
 
     private void logout() {
-        menu.clearScreen();
+        //menu.clearScreen();
         menu.setState(State.NOTLOGGED);
         menu.show(); 
     }
+
+    private void searching(){
+        //menu.clearScreen();
+        String tags = menu.tags();
+        String query = "SEARCH-"+tags;
+        //String password = menu.lerDadosUser("Password: ");
+        try {
+            output.write(query);
+            output.newLine();
+            output.flush();
+
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        //menu.setState(State.LOGGED);
+        //menu.show();
+    }
+
 }

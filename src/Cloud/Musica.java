@@ -56,8 +56,8 @@ public class Musica implements Comparable<Musica> {
                 + this.nome + ", "
                 + this.artista
                 + " (" + this.ano + ") "
-                +this.tags.toString()
-                + " {" + this.downloads + "}";
+                +this.tags.toString();
+                //+ " {" + this.downloads + "}";
     }
 
     public int compareTo(Musica m) {

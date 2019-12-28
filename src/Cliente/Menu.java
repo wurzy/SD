@@ -113,6 +113,24 @@ public class Menu {
         return input.nextLine();
     }
 
+    public String lerTags() {
+        String listTags = "";
+        System.out.println("Tag: ");
+        String tag = input.nextLine();
+        listTags = listTags+tag;
+        System.out.println("Deseja inserir mais tags? S/N");
+        String sn = input.nextLine();
+        while (sn.compareTo("S") == 0) {
+            System.out.println("Tag: ");
+            tag = input.nextLine();
+            listTags = listTags+"%"+tag;
+            System.out.println("Deseja inserir mais tags? S/N");
+            sn = input.nextLine();
+        }
+        System.out.println(listTags);
+        return listTags;
+    }
+
     // Limpa a consola
     public void clearScreen() {
         System.out.println("\033[H\033[2J");
@@ -124,6 +142,22 @@ public class Menu {
         return state;
     }
 
+    public String tags(){
+        String tag;
+        String tags = "";
+        System.out.println("Tag (q=Exit): ");
+        while(!(tag=input.nextLine()).equals("q")){
+            tags+=tag + ",";
+        }
+        tags = tags.substring(0,tags.length()-1);
+        return tags;
+    }
+
+    public String getConfirm(){
+        System.out.println("Clique numa tecla para confirmar.");
+        String s = input.nextLine();
+        return s;
+    }
     public void setState(State state) {
         this.state = state;
     }
