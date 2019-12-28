@@ -221,6 +221,7 @@ public class Worker implements Runnable {
             dos.writeUTF(app.getMusicaString(Integer.valueOf(input)));
             dos.writeLong(mybytearray.length);
             dos.write(mybytearray, 0, mybytearray.length);
+            app.downloadMusica(Integer.valueOf(input));
             dos.flush();
             System.out.println("File "+input+" sent to client.");
         } catch (Exception e) {

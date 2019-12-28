@@ -143,7 +143,7 @@ public class Reader implements Runnable{
         //String useless = menu.getConfirm();
         //System.out.println(useless);
         //Scanner sc = new Scanner(System.in);
-       // System.out.println("Introduza uma String para sair");
+        //System.out.println("Introduza uma String para sair");
         //sc.nextLine();
         menu.setState(State.LOGGED);
        // menu.show();

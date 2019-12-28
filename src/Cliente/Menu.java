@@ -155,6 +155,7 @@ public class Menu {
 
     public String getConfirm(){
         System.out.println("Clique numa tecla para confirmar.");
+        System.out.flush();
         String s = input.nextLine();
         return s;
     }
