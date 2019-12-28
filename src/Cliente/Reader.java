@@ -3,49 +3,46 @@ package Cliente;
 // Imports
 import java.io.*;
 import java.net.Socket;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Scanner;
-
+import java.nio.file.*;
 import Cliente.Menu.State;
 
 public class Reader implements Runnable{
-    //private static final String RESET = "\u001B[0m";
 
     // Variáveis de Instância
-    private final String temp2 = "C:\\Users\\User\\AppData\\Local\\Temp\\SoundCloud\\cliente\\";
+    //Windows: private final String temp2 = "C:\\Users\\User\\AppData\\Local\\Temp\\SoundCloud\\cliente\\";
+    private final String temp2 = "/tmp/SoundCloud/cliente";
     private final int MAXSIZE = 500*1024;
     private Menu menu;
     private BufferedReader input;
     private Socket sock;
 
-    Reader(Menu menu, BufferedReader input,Socket s) {
+    // Construtor por Parâmetros
+    Reader (Menu menu, BufferedReader input,Socket s) {
         this.input = input;
         this.menu = menu;
         this.sock = s;
     }
 
-    // Está constantemente a ler do "BufferedReader" e ...
+    // Está constantemente a ler do input do Cliente (BufferedReader input) (à espera do output do Servidor)
     public void run() {
         String s;
-        System.out.println("runReader");
         try {
-            while ((s= input.readLine()) != null) {
-                //s = input.readLine();
+            while ((s = input.readLine()) != null) 
                 parseResponse(s);
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    // ... dependendo do input (resposta do "Server"), muda o "state" da classe "Menu"
+    // Dependendo da resposta do Server, muda o estado da classe Menu
     private synchronized void parseResponse(String response){
-        //String[] info = response.split(" ", 2);
-        switch (/*info[0].toUpperCase()*/response) {
-            case("DENIED"):
-                System.out.println("Username/Password inválidas" /*+ RESET*/);
+        switch (response) {
+            case("DENIED_1"):
+                System.out.println("Username/Password inválidos!");
+                menu.show();
+                break;
+            case("DENIED_2"):
+                System.out.println("Username já existe!");
                 menu.show();
                 break;
             case ("LOGGEDIN"):
@@ -53,20 +50,23 @@ public class Reader implements Runnable{
                 menu.show();
                 break;
             case("SIGNEDUP"):
-                System.out.println("Hello world");
                 menu.setState(State.NOTLOGGED);
                 menu.show();
                 break;
+            case("UPLOADING"):
+                menu.setState(State.UPLOADING);
+                menu.show();
+                break;
             case("DOWNLOADING"):
-                System.out.println("Downloading");
                 menu.setState(State.DOWNLOADING);
                 recebeFicheiro(sock,"1");
                 menu.show();
             default:
-                //System.out.println("I fucked up");
-                //menu.show();
+                menu.show();
         }
     }
+
+    // Cria uma diretoria temporária
     private void createTempDirectory(){
         Path path2 = Paths.get(temp2);
         if (!Files.exists(path2)) {
@@ -78,6 +78,7 @@ public class Reader implements Runnable{
         }
     }
 
+    // Download
     private void recebeFicheiro(Socket sock, String fileName) {
         createTempDirectory();
         try {
@@ -108,5 +109,4 @@ public class Reader implements Runnable{
             ex.printStackTrace();
         }
     }
-
 }

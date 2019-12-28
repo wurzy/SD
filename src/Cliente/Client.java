@@ -1,5 +1,6 @@
 package Cliente;
 
+// Imports
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
@@ -15,7 +16,7 @@ public class Client {
         PrintWriter out = new PrintWriter(socket.getOutputStream());
 
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        //BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
         Menu menu = new Menu();
         Writer writer = new Writer(menu,bw,socket);
@@ -27,7 +28,7 @@ public class Client {
         t_reader.start();
         t_writer.start();
         //menu.show();
-        /*
+        
         while(!(input=sc.nextLine()).equals("q")) {
             out.println(input);
             //enviarFicheiro(".\\effects\\bruh.mp3",out);
@@ -37,7 +38,7 @@ public class Client {
             //enviarFicheiro(socket,"Amazing,Kanye,1999,ola%ola%ola%ola.mp3");
             System.out.println("Server Sent: " + in.readLine());
         }
-        */
+        
         //socket.shutdownOutput();
         //socket.shutdownInput();
         //socket.close();

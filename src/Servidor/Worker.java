@@ -1,25 +1,25 @@
 package Servidor;
-import Cloud.Musica;
-import Cloud.SoundCloud;
 
+// Imports
+import Cloud.*;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.net.Socket;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.*;
 
 public class Worker implements Runnable {
+
+    // Variáveis de Instância
+    // Windows: private final String temp = "C:\\Users\\User\\AppData\\Local\\Temp\\SoundCloud\\servidor\\";
+    private final String temp = "/temp/SoundCloud/servidor/";
+    private final int MAXSIZE = 500*1024; // 500kb max
     private BufferedReader in;
     private PrintWriter out;
-   // private DataInputStream clientData;
     private Socket s;
-
     private SoundCloud app;
-    private final String temp = "C:\\Users\\User\\AppData\\Local\\Temp\\SoundCloud\\servidor\\";
-    private final int MAXSIZE = 500*1024; // 500kb max
+    // private DataInputStream clientData;
 
+    // Construtor
     public Worker(Socket s, SoundCloud sc) throws IOException {
         this.in = new BufferedReader(new InputStreamReader(s.getInputStream()));
         this.out = new PrintWriter(s.getOutputStream());
@@ -47,7 +47,6 @@ public class Worker implements Runnable {
                 }
                 System.out.println(input);
                 parse(input);
-                //upload(input,s);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -64,61 +63,42 @@ public class Worker implements Runnable {
                 register(partes[1]);
                 break;
             case "UPLOAD":
-                //out.println("ok");
-                //out.flush();
                 receiveFile(partes[1]);
+                break;
+            case "DOWNLOAD":
+                sendFile(partes[1]);
                 break;
             case "SEARCH":
                 search(partes[1]);
                 break;
-            case "DOWNLOAD":
-                System.out.println("download");
-                sendFile(partes[1]);
-                break;
             default:
-                //ArrayList<String> list = new ArrayList<>();
-                //Collections.addAll(list,"pop","wow","rap");
-                //Musica musica = new Musica("Amazing","Kanye West",2007,list);
-                //app.addMusica(musica);
-                //System.out.println(app.getAllMusicas().toString());
-                //out.println(app.getAllMusicas().toString());
-                out.println("Invalido");
-                out.flush();
-
                 break;
         }
     }
+
+    // Login: vai mandar para o "Client" se o login feito foi um sucesso ou não (username/password certas ou não)
     private void login(String s){
         String[] auth = s.split(",");
         boolean b = app.login(auth[0],auth[1]);
-        if(b) {
-            System.out.println("Ok login");
+        if(b)
             out.println("LOGGEDIN");
-        }
-        else{
-            System.out.println("Not ok login");
-            out.println("DENIED");
-        }
-        //out.println(b);
+        else
+            out.println("DENIED_1");
         out.flush();
     }
 
+    // Signup: vai mandar para o "Client" se o signup feito foi um sucesso ou não (username já existia ou não)
     private void register(String s){
         String[] reg = s.split(",");
         boolean br = app.register(reg[0],reg[1]);
-        //System.out.println("Not ok reg");
-        if(!br) {
-            System.out.println("Not ok reg");
-            out.println("DENIED");
-        }
-        else {
-            System.out.println("Ok reg");
-            out.println("SIGNEDUP");
-        }
-        //out.println(br);
+        if(br)
+             out.println("SIGNEDUP");
+        else 
+             out.println("DENIED_2");  
         out.flush();
     }
 
+    // Search
     private void search(String s) {
         ArrayList<String> search = new ArrayList<>();
         String[] tags = s.split(",");
@@ -144,6 +124,7 @@ public class Worker implements Runnable {
         out.flush();
     }
 
+    // Upload
     private void receiveFile(String input){
         //System.out.println("tou no receive");
         createTempDirectory();
@@ -178,7 +159,7 @@ public class Worker implements Runnable {
             output.close();
             //clientData.close();
             System.out.println("Cheguei ao fim");
-            out.println("Uploaded");
+            out.println("UPLOADING");
             out.flush();
             //System.out.println("File "+fileName+" received from client.");
             System.out.println(app.getAllMusicas());
@@ -187,6 +168,7 @@ public class Worker implements Runnable {
         }
     }
 
+    // Download
     private void sendFile(String input){
         createTempDirectory();
         System.out.println("sending");

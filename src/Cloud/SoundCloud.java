@@ -29,6 +29,7 @@ public class SoundCloud {
     }
 
     public boolean register(String user, String pw) {
+        System.out.println("tou no register da soundcloud");
         lock.lock();
         if(this.utilizadores.containsKey(user)) {
             lock.unlock();

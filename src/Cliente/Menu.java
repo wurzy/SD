@@ -4,8 +4,6 @@ package Cliente;
 import java.util.Scanner;
 
 public class Menu {
-    //private static final String CLEAR = "\u001b[2J\u001b[H";
-    //private static final String RESET = "\u001B[0m";
 
     // Estados possíveis
     public enum State {
@@ -20,10 +18,8 @@ public class Menu {
     // Variáveis de Instância
     private State state;
     private Scanner input;
-    //private String username;
-    //private String password;
 
-    // Construtor (inicia o Menu no 1º menu e state, NOTLOGGED)
+    // Construtor vazio (inicia o Menu no 1º menu e state, NOTLOGGED)
     public Menu(){
         input = new Scanner(System.in);
         this.state = State.NOTLOGGED;
@@ -33,34 +29,45 @@ public class Menu {
     public void show() {
         switch (state) {
             case NOTLOGGED:
-                System.out.println(/*CLEAR +*/"+----------------- MENU INICIAL -----------------+\n" +
+                //clearScreen();
+                System.out.println("+----------------- MENU INICIAL -----------------+\n" +
                         "| 1 - LOG-IN                                     |\n" +
                         "| 2 - REGISTAR                                   |\n" +
                         "| 0 - SAIR                                       |\n" +
-                        "+------------------------------------------------+\n"/*+ RESET*/);
+                        "+------------------------------------------------+\n");
                 break;
             case LOGGED:
-                System.out.println(/*CLEAR +*/"+----------------- MENU CLIENTE ------------------+\n" +
+                //clearScreen();
+                System.out.println("+----------------- MENU CLIENTE ------------------+\n" +
                         "| 1 - UPLOAD                                      |\n" +
                         "| 2 - DOWNLOAD                                    |\n" +
                         "| 3 - PROCURAR                                    |\n" +
                         "| 4 - NOTIFICAÇOES                                |\n" +
                         "| 0 - LOGOUT                                      |\n" +
-                        "+ ------------------------------------------------+\n"/*+ RESET*/);
+                        "+ ------------------------------------------------+\n");
                 break;
             case REGISTERING:
-                System.out.println(/*CLEAR +*/"+------------------- REGISTAR --------------------+\n" +
+                System.out.println("+------------------- REGISTAR --------------------+\n" +
                         "|                                                 |\n" +
                         "|            A registar cliente....               |\n" +
                         "|                                                 |\n" +
-                        "+ ------------------------------------------------+\n"/*+ RESET*/);
+                        "+ ------------------------------------------------+\n");
                 break;
             case SEARCHING: 
                 break;
             case UPLOADING:
+                System.out.println("+------------------- REGISTAR --------------------+\n" +
+                        "|                                                 |\n" +
+                        "|                   Uploading....                 |\n" +
+                        "|                                                 |\n" +
+                        "+ ------------------------------------------------+\n");
                 break;
             case DOWNLOADING:
-                //System.out.println("Am in menu downloading");
+                System.out.println("+------------------- REGISTAR --------------------+\n" +
+                        "|                                                 |\n" +
+                        "|                  Downloading....                |\n" +
+                        "|                                                 |\n" +
+                        "+ ------------------------------------------------+\n");
                 break;
         }
         System.out.print("Opção: ");
@@ -79,7 +86,7 @@ public class Menu {
                     }
                     break;
                 case LOGGED:
-                    while(choice<0 || choice >3){
+                    while(choice<0 || choice >4){
                         System.out.print("Opção: ");
                         choice = Integer.parseInt(input.nextLine());
                     }
@@ -97,6 +104,12 @@ public class Menu {
     public String lerDadosUser(String pedido) {
         System.out.println(pedido);
         return input.nextLine();
+    }
+
+    // Limpa a consola
+    public void clearScreen() {
+        System.out.println("\033[H\033[2J");
+        System.out.flush();
     }
 
     // Getters e Setters
