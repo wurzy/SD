@@ -67,4 +67,5 @@ public class Musica implements Comparable<Musica> {
     public synchronized boolean containsTag(String s){
         return this.tags.stream().anyMatch(tag -> tag.equals(s));
     }
+
 }

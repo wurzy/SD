@@ -39,19 +39,33 @@ public class SoundCloud {
         return true;
     }
 
-    public void addMusica(Musica m){
+    public int addMusica(Musica m){
+        int i;
         lock.lock();
         this.lastAdded++;
         m.setId(lastAdded);
+        i = lastAdded;
         this.musicas.put(lastAdded,m);
         lock.unlock();
+        return i;
     }
 
-    public String getMusica(int id){
+    public String getMusicaString(int id){
         lock.lock();
         String s = this.musicas.get(id).toString();
         lock.unlock();
         return s;
+    }
+
+    public boolean downloadMusica(int id){
+        boolean b = false;
+        lock.lock();
+        if(this.musicas.containsKey(id)){
+            b = true;
+            this.musicas.get(id).downloaded();
+        }
+        lock.unlock();
+        return b;
     }
 
     public HashMap<Integer,Musica> getAllMusicas(){
