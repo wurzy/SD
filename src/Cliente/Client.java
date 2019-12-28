@@ -19,7 +19,7 @@ public class Client {
 
         Menu menu = new Menu();
         Writer writer = new Writer(menu,bw,socket);
-        Reader reader = new Reader(menu,in);
+        Reader reader = new Reader(menu,in,socket);
 
         Thread t_reader = new Thread(reader);
         Thread t_writer = new Thread(writer);

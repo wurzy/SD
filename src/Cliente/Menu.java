@@ -60,6 +60,7 @@ public class Menu {
             case UPLOADING:
                 break;
             case DOWNLOADING:
+                //System.out.println("Am in menu downloading");
                 break;
         }
         System.out.print("Opção: ");

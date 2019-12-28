@@ -3,11 +3,15 @@ package Cliente;
 // Imports
 import java.io.*;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class Writer implements Runnable {
 
     // Variáveis de Instância
+    private final int MAXSIZE = 500*1024; // 500kb max
     private Menu menu;
     private BufferedWriter output;
     private Socket sk;
@@ -40,8 +44,13 @@ public class Writer implements Runnable {
                     System.exit(0);
                 if (choice == 1) {
                     System.out.println("login");
+                    Scanner sc = new Scanner(System.in);
+                    output.write("DOWNLOAD-" + sc.nextInt());
+                    output.newLine();
+                    output.flush();
                     //login_signup(1);
-                    enviarFicheiro(sk,"Amazing,Kanye,1999,ola%ola%ola%ola");
+                    //enviarFicheiro(sk,"Amazing,Kanye,1999,ola%ola%ola%ola");
+                    //recebeFicheiro(sk,Integer.toString(5));
                 }
                 if (choice == 2) {
                     System.out.println("signup");
@@ -80,9 +89,7 @@ public class Writer implements Runnable {
 
     private void enviarFicheiro(Socket s, String campos){
         try {
-            output.write("UPLOAD-");
-            output.newLine();
-            output.flush();
+
             //System.err.print("Enter file name: ");
             Scanner sc = new Scanner(System.in);
             //String fileName = ".\\effects\\bruh.mp3"; // substituir aqui eventualmente
@@ -90,7 +97,13 @@ public class Writer implements Runnable {
             // aqui tem de tar um readline()
             File myFile = new File(fileName);
             byte[] mybytearray = new byte[(int) myFile.length()];
-
+            if(myFile.length()>=MAXSIZE) {
+                System.out.println("File size demasiado grande.");
+                return;
+            }
+            output.write("UPLOAD-");
+            output.newLine();
+            output.flush();
             FileInputStream fis = new FileInputStream(myFile);
             BufferedInputStream bis = new BufferedInputStream(fis);
             //bis.read(mybytearray, 0, mybytearray.length);
@@ -112,4 +125,7 @@ public class Writer implements Runnable {
             System.err.println("File does not exist!");
         }
     }
+
+
+
 }

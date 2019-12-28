@@ -18,7 +18,6 @@ public class Worker implements Runnable {
 
     private SoundCloud app;
     private final String temp = "C:\\Users\\User\\AppData\\Local\\Temp\\SoundCloud\\servidor\\";
-    private final String temp2 = "C:\\Users\\User\\AppData\\Local\\Temp\\SoundCloud\\cliente\\";
     private final int MAXSIZE = 500*1024; // 500kb max
 
     public Worker(Socket s, SoundCloud sc) throws IOException {
@@ -71,6 +70,10 @@ public class Worker implements Runnable {
                 break;
             case "SEARCH":
                 search(partes[1]);
+                break;
+            case "DOWNLOAD":
+                System.out.println("download");
+                sendFile(partes[1]);
                 break;
             default:
                 //ArrayList<String> list = new ArrayList<>();
@@ -129,17 +132,10 @@ public class Worker implements Runnable {
 
     private void createTempDirectory(){
         Path path1 = Paths.get(temp);
-        Path path2 = Paths.get(temp2);
+        //Path path2 = Paths.get(temp2);
         if (!Files.exists(path1)) {
             try {
                 Files.createDirectories(path1);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        if (!Files.exists(path2)) {
-            try {
-                Files.createDirectories(path2);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -191,12 +187,18 @@ public class Worker implements Runnable {
         }
     }
 
-/*
-    private void sendFile(String fileName){
+    private void sendFile(String input){
+        createTempDirectory();
+        System.out.println("sending");
         try {
             //handle file read
-            File myFile = new File(fileName);
+            out.println("DOWNLOADING");
+            out.flush();
+            System.out.println(temp + input + ".mp3");
+            //File myFile = new File(temp+input+".mp3");
+            File myFile = new File(temp+ "5.mp3"); // para ja fica estatico :)
             byte[] mybytearray = new byte[(int) myFile.length()];
+            System.out.println(myFile.length());
 
             FileInputStream fis = new FileInputStream(myFile);
             BufferedInputStream bis = new BufferedInputStream(fis);
@@ -210,15 +212,17 @@ public class Worker implements Runnable {
 
             //Sending file name and file size to the server
             DataOutputStream dos = new DataOutputStream(os);
-            dos.writeUTF(myFile.getName());
+
+            System.out.println("Filename: " + app.getMusicaString(Integer.valueOf(input)));
+            dos.writeUTF(app.getMusicaString(Integer.valueOf(input)));
             dos.writeLong(mybytearray.length);
             dos.write(mybytearray, 0, mybytearray.length);
             dos.flush();
-            System.out.println("File "+fileName+" sent to client.");
+            System.out.println("File "+input+" sent to client.");
         } catch (Exception e) {
             System.err.println("File does not exist!");
         }
     }
-    */
+
 
 }
