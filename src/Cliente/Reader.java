@@ -54,7 +54,7 @@ public class Reader implements Runnable{
                 System.out.println("NOTIFICA");
                 menu.notificaUser(partes[1]);
                 //menu.setState();
-                //menu.show();
+                menu.show();
                 break;
             case ("LOGGEDIN"):
                 System.out.println("LGDIN");
