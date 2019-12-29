@@ -61,7 +61,6 @@ public class SoundCloud {
         m.setId(lastAdded);
         i = lastAdded;
         this.musicas.put(lastAdded,m);
-        lock.unlock();
 
         // Vai notificar todos os users que estão logged in
         Iterator it = this.usersLogged.entrySet().iterator();
@@ -71,9 +70,10 @@ public class SoundCloud {
             String s = (String)pair.getKey();
             System.out.println("User "+s+" vai ser notificado.");
             w.notifica("*** A música "+m.getNome()+" do artista "+m.getArtista()+" foi uploaded! ***");
-            it.remove();
+            //it.remove();
         }
 
+        lock.unlock();
         return i;
     }
 

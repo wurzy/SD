@@ -10,8 +10,8 @@ import java.util.*;
 public class Worker implements Runnable {
 
     // Variáveis de Instância
-    //private final String temp = "C:\\Users\\User\\AppData\\Local\\Temp\\SoundCloud\\servidor\\"; //Windows
-    private final String temp = "/tmp/SoundCloud/servidor/";     // Linux
+    private final String temp = "C:\\Users\\User\\AppData\\Local\\Temp\\SoundCloud\\servidor\\"; //Windows
+    //private final String temp = "/tmp/SoundCloud/servidor/";     // Linux
     private final int MAXSIZE = 500*1024; // 500kb max
     private BufferedReader in;
     private PrintWriter out;
@@ -176,6 +176,9 @@ public class Worker implements Runnable {
             String fileName = clientData.readUTF();
             //fileName = clientData.readUTF();
 
+            out.println("UPLOADING-");
+            out.flush();
+
             System.out.println(fileName + " foi o nome");
             String partes[] = fileName.split(",",4);
             String tags[] = partes[3].split("%");
@@ -185,9 +188,7 @@ public class Worker implements Runnable {
             }
 
             int id = app.addMusica(new Musica(partes[0],partes[1],Integer.valueOf(partes[2]),tagsA));
-
             String nome = temp+id+".mp3";
-
             OutputStream output = new FileOutputStream(nome);
             long size = clientData.readLong();
             //System.out.println(size + " foi o size");
@@ -197,10 +198,13 @@ public class Worker implements Runnable {
                 size -= bytesRead;
             }
             output.close();
+            out.println("UPLOADED-");
+            out.flush();
+
+            //app.setAvailable(id);      //fazer isto
+
             //clientData.close();
             System.out.println("Cheguei ao fim");
-            out.println("UPLOADING-");
-            out.flush();
             //System.out.println("File "+fileName+" received from client.");
             System.out.println(app.getAllMusicas());
 

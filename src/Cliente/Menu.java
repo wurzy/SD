@@ -61,11 +61,11 @@ public class Menu {
                 break;
             case UPLOADING:
                 System.out.println("State:" + this.state);
-                System.out.println("+------------------- REGISTAR --------------------+\n" +
+                System.out.println("+-------------------------------------------------+\n" +
                         "|                                                 |\n" +
                         "|                   Uploading....                 |\n" +
                         "|                                                 |\n" +
-                        "+ ------------------------------------------------+\n");
+                        "+-------------------------------------------------+\n");
                 break;
             case DOWNLOADING:
                 System.out.println("State:" + this.state);

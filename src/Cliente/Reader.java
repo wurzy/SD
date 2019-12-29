@@ -10,8 +10,8 @@ import Cliente.Menu.State;
 public class Reader implements Runnable{
 
     // Variáveis de Instância
-    //private final String temp2 = "C:\\Users\\User\\AppData\\Local\\Temp\\SoundCloud\\cliente\\"; // Windows
-    private final String temp2 = "/tmp/SoundCloud/cliente";                                        // Linux
+    private final String temp2 = "C:\\Users\\User\\AppData\\Local\\Temp\\SoundCloud\\cliente\\"; // Windows
+    //private final String temp2 = "/tmp/SoundCloud/cliente";                                        // Linux
     private final int MAXSIZE = 500*1024;
     private Menu menu;
     private BufferedReader input;
@@ -67,10 +67,16 @@ public class Reader implements Runnable{
                 menu.show();
                 break;
             case("UPLOADING"):
-                System.out.println("UPL");
+                System.out.println("UPLDING");
                 menu.setState(State.UPLOADING);
-                menu.setState(State.LOGGED);
+                menu.show();
+                //menu.setState(State.LOGGED);
                 //o NOTIFICA já vai fazer menu.show(), se pusermos aqui aparecerá 2 vezes
+                break;
+            case("UPLOADED"):
+                System.out.println("UPLDED");
+                menu.setState(State.LOGGED);
+                menu.show();
                 break;
             case("DOWNLOADING"):
                 System.out.println("DL");
