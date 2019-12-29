@@ -4,15 +4,14 @@ package Cliente;
 import java.io.*;
 import java.net.Socket;
 import java.nio.file.*;
-import java.util.Scanner;
 
 import Cliente.Menu.State;
 
 public class Reader implements Runnable{
 
     // Variáveis de Instância
-    private final String temp2 = "C:\\Users\\User\\AppData\\Local\\Temp\\SoundCloud\\cliente\\"; // Windows
-    //private final String temp2 = "/tmp/SoundCloud/cliente";                                    // Linux
+    //private final String temp2 = "C:\\Users\\User\\AppData\\Local\\Temp\\SoundCloud\\cliente\\"; // Windows
+    private final String temp2 = "/tmp/SoundCloud/cliente";                                        // Linux
     private final int MAXSIZE = 500*1024;
     private Menu menu;
     private BufferedReader input;
@@ -38,8 +37,9 @@ public class Reader implements Runnable{
 
     // Dependendo da resposta do Server, muda o estado da classe Menu
     private synchronized void parseResponse(String response){
+        String[] partes = response.split("-",2);
         System.out.println("Parsing response");
-        switch (response) {
+        switch(partes[0]) {
             case("DENIED_1"):
                 System.out.println("DENIED1");
                 System.out.println("Username/Password inválidos!");
@@ -50,8 +50,14 @@ public class Reader implements Runnable{
                 System.out.println("Username já existe!");
                 menu.show();
                 break;
+            case ("NOTIFICA"):
+                System.out.println("NOTIFICA");
+                menu.notificaUser(partes[1]);
+                menu.show();
+                break;
             case ("LOGGEDIN"):
                 System.out.println("LGDIN");
+                menu.setUser(partes[1]);
                 menu.setState(State.LOGGED);
                 menu.show();
                 break;
@@ -64,14 +70,13 @@ public class Reader implements Runnable{
                 System.out.println("UPL");
                 menu.setState(State.UPLOADING);
                 menu.setState(State.LOGGED);
-                menu.show();
+                //o NOTIFICA já vai fazer menu.show(), se pusermos aqui aparecerá 2 vezes
                 break;
             case("DOWNLOADING"):
                 System.out.println("DL");
                 menu.setState(State.DOWNLOADING);
                 recebeFicheiro(sock,"1");
                 menu.setState(State.LOGGED);
-                menu.show();
                 break;
             case("SEARCHING"):
                 System.out.println("SRCH");

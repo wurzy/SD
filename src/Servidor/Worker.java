@@ -10,8 +10,8 @@ import java.util.*;
 public class Worker implements Runnable {
 
     // Variáveis de Instância
-    private final String temp = "C:\\Users\\User\\AppData\\Local\\Temp\\SoundCloud\\servidor\\"; //Windows
-    //private final String temp = "/temp/SoundCloud/servidor/";     // Linux
+    //private final String temp = "C:\\Users\\User\\AppData\\Local\\Temp\\SoundCloud\\servidor\\"; //Windows
+    private final String temp = "/tmp/SoundCloud/servidor/";     // Linux
     private final int MAXSIZE = 500*1024; // 500kb max
     private BufferedReader in;
     private PrintWriter out;
@@ -61,6 +61,10 @@ public class Worker implements Runnable {
                 System.out.println("Entrei no login :)");
                 login(partes[1]);
                 break;
+            case "LOGOUT":
+                System.out.println("Entrei no logout :)");
+                logout(partes[1]);
+                break;
             case "REGISTER":
                 System.out.println("Entrei no reg :)");
                 register(partes[1]);
@@ -90,11 +94,17 @@ public class Worker implements Runnable {
     private void login(String s){
         String[] auth = s.split(",");
         boolean b = app.login(auth[0],auth[1]);
-        if(b)
-            out.println("LOGGEDIN");
-        else
-            out.println("DENIED_1");
+        if(b) {
+            out.println("LOGGEDIN-"+auth[0]);
+            this.app.insertLogged(auth[0],this);
+        } else
+            out.println("DENIED_1-");
         out.flush();
+    }
+
+     // Logout
+    private void logout(String s){
+        this.app.removeLogged(s);
     }
 
     // Signup: vai mandar para o "Client" se o signup feito foi um sucesso ou não (username já existia ou não)
@@ -102,9 +112,15 @@ public class Worker implements Runnable {
         String[] reg = s.split(",");
         boolean br = app.register(reg[0],reg[1]);
         if(br)
-             out.println("SIGNEDUP");
+             out.println("SIGNEDUP-");
         else 
-             out.println("DENIED_2");  
+             out.println("DENIED_2-");  
+        out.flush();
+    }
+
+    // Notificar users de Uploads
+    public void notifica(String s) {
+        out.println("NOTIFICA-"+s);
         out.flush();
     }
 
@@ -117,7 +133,7 @@ public class Worker implements Runnable {
         }
         Set<Musica> musicas = app.filterTag(search);
         Iterator<Musica> it = musicas.iterator();
-        out.println("SEARCHING");
+        out.println("SEARCHING-");
         out.flush();
         while(it.hasNext()) {
             Musica m = it.next();
@@ -180,14 +196,14 @@ public class Worker implements Runnable {
                 output.write(buffer, 0, bytesRead);
                 size -= bytesRead;
             }
-
             output.close();
             //clientData.close();
             System.out.println("Cheguei ao fim");
-            out.println("UPLOADING");
+            out.println("UPLOADING-");
             out.flush();
             //System.out.println("File "+fileName+" received from client.");
             System.out.println(app.getAllMusicas());
+
         } catch (IOException ex) {
             System.err.println("Client error. Connection closed.");
         }
@@ -199,7 +215,7 @@ public class Worker implements Runnable {
         System.out.println("sending");
         try {
             //handle file read
-            out.println("DOWNLOADING");
+            out.println("DOWNLOADING-");
             out.flush();
             System.out.println(temp + input + ".mp3");
             File myFile = new File(temp+input+".mp3");
@@ -236,7 +252,7 @@ public class Worker implements Runnable {
 
     private void leave(){
         System.out.println("Trying to leave");
-        out.println("LEAVE");
+        out.println("LEAVE-");
         out.flush();
     }
 

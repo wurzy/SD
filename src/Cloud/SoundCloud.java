@@ -2,6 +2,7 @@ package Cloud;
 
 import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
+import Servidor.Worker;
 
 public class SoundCloud {
     private HashMap<String,String> utilizadores;
@@ -9,10 +10,24 @@ public class SoundCloud {
     private int lastAdded = 0; // so para saber o ultimo ID
     private ReentrantLock lock;
 
+    private HashMap<String,Worker> usersLogged;
+
     public SoundCloud(){
         this.utilizadores = new HashMap<>();
         this.musicas = new HashMap<>();
         this.lock = new ReentrantLock();
+        this.usersLogged = new HashMap<>();
+    }
+
+    public void insertLogged(String user, Worker wkr) {
+        System.out.println("Inserimos user: " +user);
+        this.usersLogged.put(user,wkr);
+
+    }
+
+    public void removeLogged(String user) {
+        System.out.println("Removemos user: " +user);
+        this.usersLogged.remove(user);
     }
 
     public boolean login(String user,String pw){
@@ -47,6 +62,18 @@ public class SoundCloud {
         i = lastAdded;
         this.musicas.put(lastAdded,m);
         lock.unlock();
+
+        // Vai notificar todos os users que estão logged in
+        Iterator it = this.usersLogged.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            Worker w = (Worker)pair.getValue();
+            String s = (String)pair.getKey();
+            System.out.println("User "+s+" vai ser notificado.");
+            w.notifica("*** A música "+m.getNome()+" do artista "+m.getArtista()+" foi uploaded! ***");
+            it.remove();
+        }
+
         return i;
     }
 

@@ -3,20 +3,13 @@ package Cliente;
 // Imports
 import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
-
 public class Client {
 
     public static void main(String[] args) throws Exception{
         Socket socket = new Socket("127.0.0.1",12345);
-        String input;
-
-        Scanner sc = new Scanner(System.in);
+        
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        PrintWriter out = new PrintWriter(socket.getOutputStream());
-
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        //BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
         Menu menu = new Menu();
         Writer writer = new Writer(menu,bw,socket);

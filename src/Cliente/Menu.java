@@ -18,6 +18,7 @@ public class Menu {
     // Variáveis de Instância
     private State state;
     private Scanner input;
+    private String user;
 
     // Construtor vazio (inicia o Menu no 1º menu e state, NOTLOGGED)
     public Menu(){
@@ -44,7 +45,6 @@ public class Menu {
                         "| 1 - UPLOAD                                      |\n" +
                         "| 2 - DOWNLOAD                                    |\n" +
                         "| 3 - PROCURAR                                    |\n" +
-                        "| 4 - NOTIFICAÇOES                                |\n" +
                         "| 0 - LOGOUT                                      |\n" +
                         "+ ------------------------------------------------+\n");
                 break;
@@ -93,7 +93,7 @@ public class Menu {
                     }
                     break;
                 case LOGGED:
-                    while(choice<0 || choice >4){
+                    while(choice<0 || choice >3){
                         System.out.print("Opção: ");
                         choice = Integer.parseInt(input.nextLine());
                     }
@@ -137,11 +137,6 @@ public class Menu {
         System.out.flush();
     }
 
-    // Getters e Setters
-    public State getState() {
-        return state;
-    }
-
     public String tags(){
         String tag;
         String tags = "";
@@ -159,7 +154,26 @@ public class Menu {
         String s = input.nextLine();
         return s;
     }
+
+
+	public void notificaUser(String string) {
+        System.out.println(string);
+    }
+    
+    // Getters e Setters
+    public State getState() {
+        return state;
+    }
+
     public void setState(State state) {
         this.state = state;
+    }
+
+    public String getUser() {
+        return this.user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 }

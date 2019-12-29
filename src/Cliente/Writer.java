@@ -3,8 +3,6 @@ package Cliente;
 // Imports
 import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
-
 import Cliente.Menu.State;
 
 public class Writer implements Runnable {
@@ -39,9 +37,8 @@ public class Writer implements Runnable {
     private void parse(Integer choice) throws Exception {
         switch (menu.getState()) {
         case NOTLOGGED:
-            if (choice == 0) {
+            if (choice == 0) 
                 leave();
-            }
             if (choice == 1)
                 login_signup(1);
             if (choice == 2)
@@ -90,6 +87,16 @@ public class Writer implements Runnable {
         output.flush();
     }
 
+    // Logout
+    private void logout() throws IOException{
+        String userAtual = menu.getUser();
+        output.write("LOGOUT-"+userAtual); 
+        output.newLine();
+        output.flush();
+        menu.setState(State.NOTLOGGED);
+        menu.show(); 
+    }
+
     // Download
     private void download() {
         try {
@@ -110,7 +117,8 @@ public class Writer implements Runnable {
             String ano = menu.lerDadosUser("Ano: ");
             String tags = menu.lerTags();
             String file = menu.lerDadosUser("Filename: ");
-            String fileName = ".\\effects\\" + file + ".mp3";
+            String fileName = "./effects/" + file + ".mp3";     // Linux
+            //String fileName = ".\\effects\\" + file + ".mp3"; // Windows
             String query = nome+","+artista+","+ano+","+tags;
 
             File myFile = new File(fileName);
@@ -140,11 +148,6 @@ public class Writer implements Runnable {
         } catch (Exception e) {
             System.err.println("File does not exist!");
         }
-    }
-
-    private void logout() {
-        menu.setState(State.NOTLOGGED);
-        menu.show(); 
     }
 
     private void leave(){
