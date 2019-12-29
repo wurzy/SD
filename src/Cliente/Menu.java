@@ -82,27 +82,38 @@ public class Menu {
 
     // Regista a escolha do utilizador, se esta for válida (se não for válida, volta a pedir)
     public Integer choice() {
-        int choice;
+        int choice = -1;
+        while((choice = choice2()) == -1) {
+            System.out.println("Insira opção válida!");
+            System.out.print("Opção: ");
+        }
+        return choice;
+    }
+
+    private Integer choice2() {
+        int choice = -1;
         try {
             choice = Integer.parseInt(input.nextLine());
             switch(state){
                 case NOTLOGGED:
                     while(choice<0 || choice >2) {
-                        System.out.print("Opção: ");
-                        choice = Integer.parseInt(input.nextLine());
-                    }
-                    break;
+                    System.out.println("Insira opção válida!");
+                    System.out.print("Opção: ");
+                    choice = Integer.parseInt(input.nextLine());
+                }
+                break;
                 case LOGGED:
                     while(choice<0 || choice >3){
-                        System.out.print("Opção: ");
-                        choice = Integer.parseInt(input.nextLine());
-                    }
-                    break;
+                    System.out.println("Insira opção válida!");
+                    System.out.print("Opção: ");
+                    choice = Integer.parseInt(input.nextLine());
+                }
+                break;
                 default:
                     System.out.println("This is my final messsage... goodbye");
             }
         }
-        catch(Exception e) {
+        catch(NumberFormatException e) {
             choice = -1;
         }
         return choice;

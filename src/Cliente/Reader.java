@@ -53,7 +53,8 @@ public class Reader implements Runnable{
             case ("NOTIFICA"):
                 System.out.println("NOTIFICA");
                 menu.notificaUser(partes[1]);
-                menu.show();
+                //menu.setState();
+                //menu.show();
                 break;
             case ("LOGGEDIN"):
                 System.out.println("LGDIN");
@@ -81,8 +82,13 @@ public class Reader implements Runnable{
             case("DOWNLOADING"):
                 System.out.println("DL");
                 menu.setState(State.DOWNLOADING);
+                menu.show();
                 recebeFicheiro(sock,"1");
+                //menu.setState(State.LOGGED);
+                break;
+            case("DOWNLOADED"):
                 menu.setState(State.LOGGED);
+                menu.show();
                 break;
             case("SEARCHING"):
                 System.out.println("SRCH");
@@ -139,7 +145,8 @@ public class Reader implements Runnable{
             OutputStream output = new FileOutputStream((temp2 + fileName + ".mp3"));
             long size = clientData.readLong();
             System.out.println(size);
-            byte[] buffer = new byte[MAXSIZE];
+            //byte[] buffer = new byte[MAXSIZE];
+            byte[] buffer = new byte[1024*1024*6];
 
             while (size > 0 && (bytesRead = clientData.read(buffer, 0, (int) Math.min(buffer.length, size))) != -1) {
                 output.write(buffer, 0, bytesRead);

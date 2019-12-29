@@ -84,10 +84,30 @@ public class SoundCloud {
         return s;
     }
 
-    public boolean downloadMusica(int id){
+    public void allowMusica(int id){
+        lock.lock();
+        /*
+        try{
+            System.out.println("Started sleep");
+            Thread.sleep(10000);
+            System.out.println("Stopped sleep");
+        }
+        catch(Exception e) {
+            System.out.println("Erro no sleep");
+        }
+        */
+        this.musicas.get(id).allowDownload();
+        lock.unlock();
+    }
+
+    public boolean downloadMusica(int id) throws Exception{
         boolean b = false;
         lock.lock();
         if(this.musicas.containsKey(id)){
+            System.out.println("Estou a ver se e possivel");
+            this.musicas.get(id).available();
+            System.out.println("E possivel");
+            //available();
             b = true;
             this.musicas.get(id).downloaded();
         }

@@ -189,15 +189,20 @@ public class Worker implements Runnable {
 
             int id = app.addMusica(new Musica(partes[0],partes[1],Integer.valueOf(partes[2]),tagsA));
             String nome = temp+id+".mp3";
+
             OutputStream output = new FileOutputStream(nome);
             long size = clientData.readLong();
             //System.out.println(size + " foi o size");
-            byte[] buffer = new byte[MAXSIZE];
+            //byte[] buffer = new byte[MAXSIZE];
+            byte[] buffer = new byte[1024*1024*6];
             while (size > 0 && (bytesRead = clientData.read(buffer, 0, (int) Math.min(buffer.length, size))) != -1) {
                 output.write(buffer, 0, bytesRead);
                 size -= bytesRead;
             }
+
+            System.out.println("Permiti: " + id);
             output.close();
+            app.allowMusica(id); // unlock
             out.println("UPLOADED-");
             out.flush();
 
@@ -247,6 +252,8 @@ public class Worker implements Runnable {
             app.downloadMusica(Integer.valueOf(input));
             dos.flush();
             System.out.println("File "+input+" sent to client.");
+            out.println("DOWNLOADED-");
+            out.flush();
         } catch (Exception e) {
 
             //System.err.println("File does not exist!");

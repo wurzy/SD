@@ -125,7 +125,7 @@ public class Writer implements Runnable {
             byte[] mybytearray = new byte[(int) myFile.length()];
             if(myFile.length()>=MAXSIZE) {
                 System.out.println("File size demasiado grande.");
-                return;
+                //return;
             }
             output.write("UPLOAD-");
             output.newLine();

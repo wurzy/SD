@@ -27,9 +27,13 @@ public class Server {
         Musica musica4 = new Musica("Amazing","Kanye West",2007,list);
 
         sc.addMusica(musica1);
+        sc.allowMusica(musica1.getId());
         sc.addMusica(musica2);
+        sc.allowMusica(musica2.getId());
         sc.addMusica(musica3);
+        sc.allowMusica(musica3.getId());
         sc.addMusica(musica4);
+        sc.allowMusica(musica4.getId());
 
         while(true){
             Socket clSock = sSocket.accept();

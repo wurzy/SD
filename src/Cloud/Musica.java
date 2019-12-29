@@ -1,6 +1,8 @@
 package Cloud;
 
 import java.util.ArrayList;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Musica implements Comparable<Musica> {
     private int id;
@@ -9,6 +11,9 @@ public class Musica implements Comparable<Musica> {
     private int ano;
     private ArrayList<String> tags;
     private int downloads;
+    private boolean available = false;
+    private ReentrantLock lock = new ReentrantLock();
+    private Condition uploading = lock.newCondition();
 
     public Musica(String nome, String artista, int ano, ArrayList<String> tags){
         this.id = -1;
@@ -66,6 +71,32 @@ public class Musica implements Comparable<Musica> {
 
     public synchronized boolean containsTag(String s){
         return this.tags.stream().anyMatch(tag -> tag.equals(s));
+    }
+
+    public void available() throws Exception{
+        lock.lock();
+        System.out.println("Acquired lock");
+        //uploading.unlock();
+        while(!this.available) {
+            System.out.println("Im not available yet");
+            uploading.await();
+            //wait();
+        }
+        //return true;
+        System.out.println("Left the lock loop");
+        lock.unlock();
+        System.out.println("Unlocked");
+    }
+
+    public void allowDownload(){
+        lock.lock();
+        System.out.println("Aquired the other lock.");
+        this.available = true;
+        uploading.signalAll();
+        lock.unlock();
+        //this.notifyAll();
+        System.out.println("Unlocked the other lock.");
+        //System.out.println("Notifiquei");
     }
 
 }
