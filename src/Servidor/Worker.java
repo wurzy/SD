@@ -231,7 +231,7 @@ public class Worker implements Runnable {
             //File myFile = new File(temp+ "5.mp3"); // para ja fica estatico :)
             long filesize = myFile.length();
             int stop;
-            byte[] mybytearray = new byte[(int) myFile.length()];
+            byte[] mybytearray = new byte[MAXSIZE];
             System.out.println("inicial" + filesize );
 
             FileInputStream fis = new FileInputStream(myFile);
