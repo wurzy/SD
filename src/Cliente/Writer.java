@@ -124,13 +124,6 @@ public class Writer implements Runnable {
             File myFile = new File(fileName);
             long filesize = myFile.length();
             int stop = 0;
-            long start = 0;
-            int offset = 0;
-
-            if(filesize>=MAXSIZE) {
-                System.out.println("File size demasiado grande.");
-                //return;
-            }
 
             //byte[] mybytearray = new byte[(int) myFile.length()];
             byte[] mybytearray = new byte[MAXSIZE];
