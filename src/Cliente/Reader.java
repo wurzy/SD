@@ -148,7 +148,7 @@ public class Reader implements Runnable{
             //byte[] buffer = new byte[MAXSIZE];
             byte[] buffer = new byte[MAXSIZE];
 
-            while (size > 0 && (bytesRead = clientData.read(buffer, 0, (int) Math.min(buffer.length, size))) != -1) {
+            while (size > 0 && (bytesRead = clientData.read(buffer, 0, (int) Math.min(MAXSIZE, size))) != -1) {
                 output.write(buffer, 0, bytesRead);
                 size -= bytesRead;
             }

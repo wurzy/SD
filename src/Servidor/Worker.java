@@ -249,11 +249,11 @@ public class Worker implements Runnable {
 
             System.out.println("Filename: " + app.getMusicaString(Integer.valueOf(input)));
             dos.writeUTF(app.getMusicaString(Integer.valueOf(input)));
-            dos.writeLong(mybytearray.length);
+            dos.writeLong(filesize);
             //dos.write(mybytearray, 0, mybytearray.length);
             while (filesize > 0 && (stop = dis.read(mybytearray, 0, (int) Math.min(MAXSIZE, filesize))) != -1) {
                 dos.write(mybytearray, 0, stop);
-                //System.out.println("Im currently at: " + filesize);
+                System.out.println("Im currently at: " + filesize);
                 filesize -= stop;
             }
             //dos.flush();

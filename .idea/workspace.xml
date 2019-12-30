@@ -50,20 +50,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Cliente/Writer.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="269">
-              <caret line="143" column="65" selection-start-line="143" selection-start-column="58" selection-end-line="143" selection-end-column="65" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk-11.0.2/lib/src.zip!/java.base/java/io/DataInputStream.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3588">
-              <caret line="181" column="56" selection-start-line="181" selection-start-column="56" selection-end-line="181" selection-end-column="56" />
+              <caret line="152" column="16" lean-forward="true" selection-start-line="152" selection-start-column="16" selection-end-line="152" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -71,8 +62,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Cliente/Reader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="516">
-              <caret line="150" column="99" selection-start-line="150" selection-start-column="92" selection-end-line="150" selection-end-column="99" />
+            <state relative-caret-position="486">
+              <caret line="153" column="13" lean-forward="true" selection-start-line="153" selection-start-column="13" selection-end-line="153" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -91,11 +82,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Servidor/Worker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="269">
-              <caret line="231" column="41" selection-start-line="231" selection-start-column="28" selection-end-line="231" selection-end-column="41" />
+            <state relative-caret-position="223">
+              <caret line="250" column="62" lean-forward="true" selection-start-line="250" selection-start-column="62" selection-end-line="250" selection-end-column="62" />
             </state>
           </provider>
         </entry>
@@ -131,6 +122,8 @@
       <find>notifica</find>
       <find>E possivel</find>
       <find>allowMu</find>
+      <find>.length</find>
+      <find>myfile.length</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -151,8 +144,8 @@
         <option value="$PROJECT_DIR$/src/Servidor/w.java" />
         <option value="$PROJECT_DIR$/src/Cloud/Musica.java" />
         <option value="$PROJECT_DIR$/src/Cloud/SoundCloud.java" />
-        <option value="$PROJECT_DIR$/src/Cliente/Reader.java" />
         <option value="$PROJECT_DIR$/src/Cliente/Writer.java" />
+        <option value="$PROJECT_DIR$/src/Cliente/Reader.java" />
         <option value="$PROJECT_DIR$/src/Servidor/Worker.java" />
       </list>
     </option>
@@ -209,7 +202,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1577678534672" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1577679195127" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -226,7 +219,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Server">
+  <component name="RunManager" selected="Application.Client">
     <configuration name="Client" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Cliente.Client" />
       <module name="SD" />
@@ -314,12 +307,12 @@
       <workItem from="1577549827472" duration="16771000" />
       <workItem from="1577638573008" duration="15180000" />
       <workItem from="1577669287941" duration="4409000" />
-      <workItem from="1577678620163" duration="291000" />
+      <workItem from="1577678620163" duration="552000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="97672000" />
+    <option name="totallyTimeSpent" value="97933000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -332,7 +325,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2771855" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -343,7 +335,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32998884" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.5959488" weight="0.3322185" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.5959488" visible="true" weight="0.3322185" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39910814" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -446,24 +438,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Servidor/Worker.java">
+    <entry file="file://$PROJECT_DIR$/src/Cliente/Writer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="269">
-          <caret line="231" column="41" selection-start-line="231" selection-start-column="28" selection-end-line="231" selection-end-column="41" />
+          <caret line="152" column="16" lean-forward="true" selection-start-line="152" selection-start-column="16" selection-end-line="152" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Cliente/Reader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="516">
-          <caret line="150" column="99" selection-start-line="150" selection-start-column="92" selection-end-line="150" selection-end-column="99" />
+        <state relative-caret-position="486">
+          <caret line="153" column="13" lean-forward="true" selection-start-line="153" selection-start-column="13" selection-end-line="153" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Cliente/Writer.java">
+    <entry file="file://$PROJECT_DIR$/src/Servidor/Worker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="143" column="65" selection-start-line="143" selection-start-column="58" selection-end-line="143" selection-end-column="65" />
+        <state relative-caret-position="223">
+          <caret line="250" column="62" lean-forward="true" selection-start-line="250" selection-start-column="62" selection-end-line="250" selection-end-column="62" />
         </state>
       </provider>
     </entry>

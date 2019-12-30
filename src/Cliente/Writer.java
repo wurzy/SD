@@ -150,7 +150,7 @@ public class Writer implements Runnable {
            //System.out.println("Filesize inicial: " + filesize);
             while (filesize > 0 && (stop = dis.read(mybytearray, 0, (int) Math.min(MAXSIZE, filesize))) != -1) {
                 dos.write(mybytearray, 0, stop);
-                //System.out.println("Im currently at: " + filesize);
+                System.out.println("Im currently at: " + filesize);
                 filesize -= stop;
             }
             dos.flush();
