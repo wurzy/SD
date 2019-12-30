@@ -12,7 +12,7 @@ public class Worker implements Runnable {
     // Variáveis de Instância
     private final String temp = "C:\\Users\\User\\AppData\\Local\\Temp\\SoundCloud\\servidor\\"; //Windows
     //private final String temp = "/tmp/SoundCloud/servidor/";     // Linux
-    private final int MAXSIZE = 500*1024; // 500kb max
+    private final int MAXSIZE = 500; // 500kb max
     private BufferedReader in;
     private PrintWriter out;
     private Socket s;
@@ -194,7 +194,7 @@ public class Worker implements Runnable {
             long size = clientData.readLong();
             //System.out.println(size + " foi o size");
             //byte[] buffer = new byte[MAXSIZE];
-            byte[] buffer = new byte[1024*1024*6];
+            byte[] buffer = new byte[MAXSIZE];
             while (size > 0 && (bytesRead = clientData.read(buffer, 0, (int) Math.min(buffer.length, size))) != -1) {
                 output.write(buffer, 0, bytesRead);
                 size -= bytesRead;
@@ -229,15 +229,17 @@ public class Worker implements Runnable {
             System.out.println(temp + input + ".mp3");
             File myFile = new File(temp+input+".mp3");
             //File myFile = new File(temp+ "5.mp3"); // para ja fica estatico :)
+            long filesize = myFile.length();
+            int stop;
             byte[] mybytearray = new byte[(int) myFile.length()];
-            System.out.println(myFile.length());
+            System.out.println("inicial" + filesize );
 
             FileInputStream fis = new FileInputStream(myFile);
             BufferedInputStream bis = new BufferedInputStream(fis);
             //bis.read(mybytearray, 0, mybytearray.length);
 
             DataInputStream dis = new DataInputStream(bis);
-            dis.readFully(mybytearray, 0, mybytearray.length);
+            //dis.readFully(mybytearray, 0, mybytearray.length);
 
             //handle file send over socket
             OutputStream os = s.getOutputStream();
@@ -248,7 +250,13 @@ public class Worker implements Runnable {
             System.out.println("Filename: " + app.getMusicaString(Integer.valueOf(input)));
             dos.writeUTF(app.getMusicaString(Integer.valueOf(input)));
             dos.writeLong(mybytearray.length);
-            dos.write(mybytearray, 0, mybytearray.length);
+            //dos.write(mybytearray, 0, mybytearray.length);
+            while (filesize > 0 && (stop = dis.read(mybytearray, 0, (int) Math.min(MAXSIZE, filesize))) != -1) {
+                dos.write(mybytearray, 0, stop);
+                //System.out.println("Im currently at: " + filesize);
+                filesize -= stop;
+            }
+            //dos.flush();
             app.downloadMusica(Integer.valueOf(input));
             dos.flush();
             System.out.println("File "+input+" sent to client.");

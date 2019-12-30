@@ -8,7 +8,7 @@ import Cliente.Menu.State;
 public class Writer implements Runnable {
 
     // Variáveis de Instância
-    private final int MAXSIZE = 500 * 1024; // 500kb max
+    private final int MAXSIZE = 500; // 500kb max
     private Menu menu;
     private BufferedWriter output;
     private Socket sk;
@@ -122,11 +122,18 @@ public class Writer implements Runnable {
             String query = nome+","+artista+","+ano+","+tags;
 
             File myFile = new File(fileName);
-            byte[] mybytearray = new byte[(int) myFile.length()];
-            if(myFile.length()>=MAXSIZE) {
+            long filesize = myFile.length();
+            int stop = 0;
+            long start = 0;
+            int offset = 0;
+
+            if(filesize>=MAXSIZE) {
                 System.out.println("File size demasiado grande.");
                 //return;
             }
+
+            //byte[] mybytearray = new byte[(int) myFile.length()];
+            byte[] mybytearray = new byte[MAXSIZE];
             output.write("UPLOAD-");
             output.newLine();
             output.flush();
@@ -134,19 +141,30 @@ public class Writer implements Runnable {
             BufferedInputStream bis = new BufferedInputStream(fis);
             //bis.read(mybytearray, 0, mybytearray.length);
 
-            DataInputStream dis = new DataInputStream(bis);
-            dis.readFully(mybytearray, 0, mybytearray.length);
-
-            //Sending file name and file size to the server
             OutputStream os = s.getOutputStream();
             DataOutputStream dos = new DataOutputStream(os);
+            DataInputStream dis = new DataInputStream(bis);
             dos.writeUTF(query);
-            dos.writeLong(mybytearray.length);
-            dos.write(mybytearray, 0, mybytearray.length);
+            dos.writeLong(filesize);
+           /* do{
+                stop+=dis.read(mybytearray, offset, (int)Math.min(mybytearray.length, filesize-stop));
+                dos.write(mybytearray, offset, mybytearray.length);
+                dos.flush();
+                //stop+=mybytearray.length;
+                System.out.println("Im currently at: " + stop + "/" + filesize);
+            }while(stop<filesize);
+            */
+           //System.out.println("Filesize inicial: " + filesize);
+            while (filesize > 0 && (stop = dis.read(mybytearray, 0, (int) Math.min(MAXSIZE, filesize))) != -1) {
+                dos.write(mybytearray, 0, stop);
+                //System.out.println("Im currently at: " + filesize);
+                filesize -= stop;
+            }
             dos.flush();
+            //Sending file name and file size to the server
             System.out.println("File " + fileName + " sent to Server.");
         } catch (Exception e) {
-            System.err.println("File does not exist!");
+            e.printStackTrace();
         }
     }
 

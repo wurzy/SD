@@ -146,7 +146,7 @@ public class Reader implements Runnable{
             long size = clientData.readLong();
             System.out.println(size);
             //byte[] buffer = new byte[MAXSIZE];
-            byte[] buffer = new byte[1024*1024*6];
+            byte[] buffer = new byte[MAXSIZE];
 
             while (size > 0 && (bytesRead = clientData.read(buffer, 0, (int) Math.min(buffer.length, size))) != -1) {
                 output.write(buffer, 0, bytesRead);
