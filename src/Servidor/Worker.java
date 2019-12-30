@@ -259,6 +259,7 @@ public class Worker implements Runnable {
             //dos.flush();
             app.downloadMusica(Integer.valueOf(input));
             dos.flush();
+            dis.close();
             System.out.println("File "+input+" sent to client.");
             out.println("DOWNLOADED-");
             out.flush();
