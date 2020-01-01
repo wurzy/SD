@@ -1,22 +1,33 @@
 package Cloud;
 
 import java.util.*;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 import Servidor.Worker;
 
 public class SoundCloud {
-    private HashMap<String,String> utilizadores;
-    private HashMap<Integer,Musica> musicas;
-    private int lastAdded = 0; // so para saber o ultimo ID
     private ReentrantLock lock;
 
+    private HashMap<String,String> utilizadores;
     private HashMap<String,Worker> usersLogged;
+    private HashMap<Integer,Musica> musicas;
+    private int lastAdded = 0; // so para saber o ultimo ID, mais rapido
+
+    //private Queue queue;
+    //private int MAXDOWNLOADS = 1;
+    //private ReentrantLock downloads;
+    //private HashMap<String,Integer> num_downloads;
+    //private Condition tooMany;
+
 
     public SoundCloud(){
         this.utilizadores = new HashMap<>();
         this.musicas = new HashMap<>();
         this.lock = new ReentrantLock();
+        //this.downloads = new ReentrantLock();
+        //this.tooMany = downloads.newCondition();
         this.usersLogged = new HashMap<>();
+        //this.num_downloads = new HashMap<>();
     }
 
     public void insertLogged(String user, Worker wkr) {
@@ -28,6 +39,14 @@ public class SoundCloud {
     public void removeLogged(String user) {
         System.out.println("Removemos user: " +user);
         this.usersLogged.remove(user);
+    }
+
+    public boolean isLogged(String user) {
+        boolean b;
+        lock.lock();
+        b = this.usersLogged.containsKey(user);
+        lock.unlock();
+        return b;
     }
 
     public boolean login(String user,String pw){
@@ -78,8 +97,11 @@ public class SoundCloud {
     }
 
     public String getMusicaString(int id){
+        String s = null;
         lock.lock();
-        String s = this.musicas.get(id).toString();
+        if(this.musicas.containsKey(id)) {
+            s = this.musicas.get(id).toString();
+        }
         lock.unlock();
         return s;
     }
@@ -107,13 +129,15 @@ public class SoundCloud {
             System.out.println("Estou a ver se e possivel");
             this.musicas.get(id).available();
             System.out.println("E possivel");
-            //available();
+            //verificar se ele nao passou o limite
             b = true;
             this.musicas.get(id).downloaded();
         }
         lock.unlock();
         return b;
     }
+
+    //public void addDownload(String user, int id){}
 
     public HashMap<Integer,Musica> getAllMusicas(){
         lock.lock();
@@ -135,4 +159,13 @@ public class SoundCloud {
         lock.unlock();
         return ret;
     }
+
+    /*
+    public void addToQueue(int id, String user) throws Exception{
+        lock.lock();
+        //this.num_downloads.put(user,)
+        //this.queue.put(id,user);
+        lock.unlock();
+    }
+    */
 }

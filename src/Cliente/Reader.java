@@ -50,6 +50,17 @@ public class Reader implements Runnable{
                 System.out.println("Username já existe!");
                 menu.show();
                 break;
+            case("DENIED_3"):
+                System.out.println("DENIED3");
+                System.out.println("Utilizador já está autenticado!");
+                menu.show();
+                break;
+            case("INVALID_ID"):
+                System.out.println("INVALID_ID");
+                System.out.println("ID Inválido!");
+                menu.setState(State.LOGGED);
+                menu.show();
+                break;
             case ("NOTIFICA"):
                 System.out.println("NOTIFICA");
                 menu.notificaUser(partes[1]);

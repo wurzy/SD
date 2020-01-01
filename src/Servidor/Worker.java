@@ -6,6 +6,7 @@ import java.io.*;
 import java.net.Socket;
 import java.nio.file.*;
 import java.util.*;
+import java.util.concurrent.locks.Condition;
 
 public class Worker implements Runnable {
 
@@ -17,6 +18,9 @@ public class Worker implements Runnable {
     private PrintWriter out;
     private Socket s;
     private SoundCloud app;
+
+    //private Condition canDownload;
+
     // private DataInputStream clientData;
 
     // Construtor
@@ -76,6 +80,7 @@ public class Worker implements Runnable {
             case "DOWNLOAD":
                 System.out.println("Entrei no dl :)");
                 sendFile(partes[1]);
+                //download(partes[1]);
                 break;
             case "SEARCH":
                 System.out.println("Entrei no search:)");
@@ -93,6 +98,11 @@ public class Worker implements Runnable {
     // Login: vai mandar para o "Client" se o login feito foi um sucesso ou não (username/password certas ou não)
     private void login(String s){
         String[] auth = s.split(",");
+        if(app.isLogged(auth[0])) {
+            out.println("DENIED_3");
+            out.flush();
+            return;
+        }
         boolean b = app.login(auth[0],auth[1]);
         if(b) {
             out.println("LOGGEDIN-"+auth[0]);
@@ -224,6 +234,12 @@ public class Worker implements Runnable {
         System.out.println("sending");
         try {
             //handle file read
+            String filename = app.getMusicaString(Integer.valueOf(input));
+            if(filename==null) {
+                out.println("INVALID_ID-");
+                out.flush();
+                return;
+            }
             out.println("DOWNLOADING-");
             out.flush();
             System.out.println(temp + input + ".mp3");
@@ -269,6 +285,24 @@ public class Worker implements Runnable {
             e.printStackTrace();
         }
     }
+/*
+    private void download(String input){
+        String partes[] = input.split(",",2);
+        int id = Integer.parseInt(partes[0]);
+        String user = partes[1];
+        try {
+            app.addToQueue(id,user);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        //app.getFromQueue()
+        //sendFile(id);
+        //while(app.getPermission()==0){
+        //    wait();
+       // }
+    }
+    */
 
     private void leave(){
         System.out.println("Trying to leave");
