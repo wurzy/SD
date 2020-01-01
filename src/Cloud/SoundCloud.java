@@ -14,10 +14,11 @@ public class SoundCloud {
     private int lastAdded = 0; // so para saber o ultimo ID, mais rapido
 
     //private Queue queue;
-    //private int MAXDOWNLOADS = 1;
+    private int MAXDOWNLOADS = 1;
+    private int num_downloads = 0;
     //private ReentrantLock downloads;
     //private HashMap<String,Integer> num_downloads;
-    //private Condition tooMany;
+    private Condition tooMany;
 
 
     public SoundCloud(){
@@ -25,7 +26,7 @@ public class SoundCloud {
         this.musicas = new HashMap<>();
         this.lock = new ReentrantLock();
         //this.downloads = new ReentrantLock();
-        //this.tooMany = downloads.newCondition();
+        this.tooMany = lock.newCondition();
         this.usersLogged = new HashMap<>();
         //this.num_downloads = new HashMap<>();
     }
@@ -106,18 +107,9 @@ public class SoundCloud {
         return s;
     }
 
+
     public void allowMusica(int id){
         lock.lock();
-        /*
-        try{
-            System.out.println("Started sleep");
-            Thread.sleep(10000);
-            System.out.println("Stopped sleep");
-        }
-        catch(Exception e) {
-            System.out.println("Erro no sleep");
-        }
-        */
         this.musicas.get(id).allowDownload();
         lock.unlock();
     }
@@ -128,13 +120,37 @@ public class SoundCloud {
         if(this.musicas.containsKey(id)){
             System.out.println("Estou a ver se e possivel");
             this.musicas.get(id).available();
+            num_downloads++;
+            System.out.println("Incrementei os downloads");
+            while(num_downloads > MAXDOWNLOADS) {
+                System.out.println(num_downloads + "/" + MAXDOWNLOADS);
+                tooMany.await();
+            }
+            System.out.println("Ja posso continuar os downloads");
             System.out.println("E possivel");
+
+            try{
+                System.out.println("Started sleep");
+                Thread.sleep(10000);
+                System.out.println("Stopped sleep");
+            }
+            catch(Exception e) {
+                System.out.println("Erro no sleep");
+            }
             //verificar se ele nao passou o limite
             b = true;
             this.musicas.get(id).downloaded();
         }
         lock.unlock();
         return b;
+    }
+
+    public void finished(){
+        lock.lock();
+        num_downloads--;
+        System.out.println("Decrementei os downloads");
+        tooMany.signalAll();
+        lock.unlock();
     }
 
     //public void addDownload(String user, int id){}

@@ -242,6 +242,8 @@ public class Worker implements Runnable {
             }
             out.println("DOWNLOADING-");
             out.flush();
+
+            app.downloadMusica(Integer.valueOf(input));
             System.out.println(temp + input + ".mp3");
             File myFile = new File(temp+input+".mp3");
             //File myFile = new File(temp+ "5.mp3"); // para ja fica estatico :)
@@ -273,9 +275,9 @@ public class Worker implements Runnable {
                 filesize -= stop;
             }
             //dos.flush();
-            app.downloadMusica(Integer.valueOf(input));
             dos.flush();
             dis.close();
+            app.finished();
             System.out.println("File "+input+" sent to client.");
             out.println("DOWNLOADED-");
             out.flush();
