@@ -82,6 +82,7 @@ public class Menu {
         return choice;
     }
 
+    // funçao auxiliar que pega num int por input
     private Integer choice2() {
         int choice;
         try {
@@ -116,6 +117,7 @@ public class Menu {
         return input.nextLine();
     }
 
+    // Le tags, mas serializa com %
     public String lerTags() {
         String listTags = "";
         System.out.println("Tag: ");
@@ -134,6 +136,7 @@ public class Menu {
         return listTags;
     }
 
+    // Le tags, mas serializa com ,
     public String tags(){
         String tag;
         String tags = "";

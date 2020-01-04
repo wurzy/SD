@@ -6,6 +6,7 @@ import java.net.*;
 import java.util.*;
 
 public class Server {
+    // Server multithreaded, uma para cada cliente.
     public static void main(String[] args) throws Exception{
 
         ServerSocket sSocket = new ServerSocket(12345);

@@ -100,6 +100,7 @@ public class Reader implements Runnable{
         }
     }
 
+    // abandona o programa sem causar crash
     private void leave(){
         try {
             sock.shutdownOutput();
@@ -124,7 +125,7 @@ public class Reader implements Runnable{
         }
     }
 
-    // Download
+    // Recebe o ficheiro enviado pelo server e os seus metadados, guarda em /files/cliente/file.mp3
     private void recebeFicheiro() {
         createTempDirectory();
         try {
@@ -150,6 +151,7 @@ public class Reader implements Runnable{
         }
     }
 
+    // recebe o resultado do pedido de search
     private void recebeSearch(){
         String musica = null;
         try {

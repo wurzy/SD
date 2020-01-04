@@ -17,7 +17,7 @@ public class SoundCloud {
     private int num_downloads = 0;
     private Condition tooMany;
 
-
+    // construtor simples, mete tudo vazio
     public SoundCloud(){
         this.utilizadores = new HashMap<>();
         this.musicas = new HashMap<>();
@@ -26,15 +26,18 @@ public class SoundCloud {
         this.usersLogged = new HashMap<>();
     }
 
+    // insere um utilizador que deu login
     public void insertLogged(String user, Worker wkr) {
         this.usersLogged.put(user,wkr);
 
     }
 
+    // remove um utilizador que tenha dado logout
     public void removeLogged(String user) {
         this.usersLogged.remove(user);
     }
 
+    // verifica se dado user já está logged in
     public boolean isLogged(String user) {
         boolean b;
         lock.lock();
@@ -43,6 +46,7 @@ public class SoundCloud {
         return b;
     }
 
+    // indica se é possivel dar login (se não está autenticado esse user / se esse user existe)
     public boolean login(String user,String pw){
         boolean bool = false;
         lock.lock();
@@ -55,6 +59,7 @@ public class SoundCloud {
         return bool;
     }
 
+    // regista um utilizador, com dada password
     public boolean register(String user, String pw) {
         lock.lock();
         if(this.utilizadores.containsKey(user)) {
@@ -66,6 +71,7 @@ public class SoundCloud {
         return true;
     }
 
+    // adiciona uma musica à coleçao
     public int addMusica(Musica m){
         int i;
         lock.lock();
@@ -86,6 +92,7 @@ public class SoundCloud {
         return i;
     }
 
+    // Retorna a música em forma de string (ver Musica), dado o seu ID
     public String getMusicaString(int id){
         String s = null;
         lock.lock();
@@ -96,13 +103,15 @@ public class SoundCloud {
         return s;
     }
 
-
+    // permite que a musica seja downloaded (o upload terminou)
     public void allowMusica(int id){
         lock.lock();
         this.musicas.get(id).allowDownload();
         lock.unlock();
     }
 
+    // bloqueia enquanto nao esta disponivel para download (ver funçao anterior) e se
+    // o nº de downloads for superior ao limite imposto pelo programa (MAXDOWNLOADS)
     public boolean downloadMusica(int id) throws Exception{
         boolean b = false;
         lock.lock();
@@ -119,6 +128,7 @@ public class SoundCloud {
         return b;
     }
 
+    // acabou o envio do ficheiro, podemos sinalizar que acabou agora um download (ver funçao anterior)
     public void finished(){
         lock.lock();
         num_downloads--;
@@ -126,8 +136,7 @@ public class SoundCloud {
         lock.unlock();
     }
 
-    //public void addDownload(String user, int id){}
-
+    // funçao auxiliar que retorna o hashmap inteiro
     public HashMap<Integer,Musica> getAllMusicas(){
         lock.lock();
         HashMap<Integer,Musica> musicas = this.musicas;
@@ -135,6 +144,7 @@ public class SoundCloud {
         return musicas;
     }
 
+    // filtra todos os ficheiros que têm pelo menos uma das tags no argumento
     public Set<Musica> filterTag(ArrayList<String> tags){
         lock.lock();
         Set<Musica> ret = new TreeSet<>();

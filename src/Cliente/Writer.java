@@ -55,7 +55,7 @@ public class Writer implements Runnable {
                     search();
                 break;
             default:
-                System.out.println("Erro");
+                System.out.println("ERRO");
                 break;
         }
     }
@@ -86,7 +86,7 @@ public class Writer implements Runnable {
         menu.show(); 
     }
 
-    // Download
+    // Pedido de download de um ficheiro dado o seu id
     private void download() {
         try {
             String nrFile = menu.lerDadosUser("Nº File: ");
@@ -98,7 +98,7 @@ public class Writer implements Runnable {
         }
     }
 
-    // Upload
+    // Upload de um ficheiro, dados os seus metadados
     private void upload(){
         try {
             String nome = menu.lerDadosUser("Nome: ");
@@ -135,7 +135,7 @@ public class Writer implements Runnable {
         }
     }
 
-    // pedido de sair do sistema
+    // pedido de sair do sistema para nao causar crash
     private void leave(){
         try{
             output.write("LEAVE-");
@@ -147,7 +147,7 @@ public class Writer implements Runnable {
         }
     }
 
-    // pedido de search
+    // pedido de search serializado
     private void search(){
         String tags = menu.tags();
         String query = "SEARCH-"+tags;

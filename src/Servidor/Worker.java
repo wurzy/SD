@@ -26,6 +26,7 @@ public class Worker implements Runnable {
         this.app = sc;
     }
 
+    // fica a ler input até a conexao fechar
     public void run() {
         String input;
         while(true) {
@@ -45,6 +46,7 @@ public class Worker implements Runnable {
         }
     }
 
+    // dá pattern match a mensagens enviadas pelos clientes e faz operaçoes consoante a mensagem
     private void parse(String input){
         String[] partes = input.split("-",2);
         switch(partes[0]){
@@ -92,7 +94,7 @@ public class Worker implements Runnable {
         out.flush();
     }
 
-     // Logout
+     // logout do client
     private void logout(String s){
         this.app.removeLogged(s);
     }
@@ -108,13 +110,13 @@ public class Worker implements Runnable {
         out.flush();
     }
 
-    // Notificar users de Uploads
+    // Notificar users de Uploads (enviam nome + artista)
     public void notifica(String s) {
         out.println("NOTIFICA-"+s);
         out.flush();
     }
 
-    // Search
+    // Envia o resultado do pedido de search para o cliente
     private void search(String s) {
         ArrayList<String> search = new ArrayList<>();
         String[] tags = s.split(",");
@@ -133,6 +135,7 @@ public class Worker implements Runnable {
         out.flush();
     }
 
+    // cria uma diretoria para colocar ficheiros
     private void createTempDirectory(){
         Path path1 = Paths.get(temp);
         if (!Files.exists(path1)) {
@@ -144,7 +147,7 @@ public class Worker implements Runnable {
         }
     }
 
-    // Upload
+    // Recebe o ficheiro dado pelo cliente e os seus metadados, gerando um ID e colocando em /files/servidor/ID.mp3
     private void receiveFile(){
         createTempDirectory();
         try {
@@ -183,7 +186,7 @@ public class Worker implements Runnable {
         }
     }
 
-    // Download
+    // Envia o ficheiro pedido pelo cliente (ID) com o nome dado pelo toString da Musica na SoundCloud
     private void sendFile(String input){
         createTempDirectory();
         try {
@@ -225,6 +228,7 @@ public class Worker implements Runnable {
         }
     }
 
+    // indica que o cliente tem permissao de sair do programa
     private void leave(){
         out.println("LEAVE-");
         out.flush();
