@@ -13,11 +13,8 @@ public class SoundCloud {
     private HashMap<Integer,Musica> musicas;
     private int lastAdded = 0; // so para saber o ultimo ID, mais rapido
 
-    //private Queue queue;
-    private int MAXDOWNLOADS = 1;
+    private int MAXDOWNLOADS = 5;
     private int num_downloads = 0;
-    //private ReentrantLock downloads;
-    //private HashMap<String,Integer> num_downloads;
     private Condition tooMany;
 
 
@@ -25,20 +22,16 @@ public class SoundCloud {
         this.utilizadores = new HashMap<>();
         this.musicas = new HashMap<>();
         this.lock = new ReentrantLock();
-        //this.downloads = new ReentrantLock();
         this.tooMany = lock.newCondition();
         this.usersLogged = new HashMap<>();
-        //this.num_downloads = new HashMap<>();
     }
 
     public void insertLogged(String user, Worker wkr) {
-        System.out.println("Inserimos user: " +user);
         this.usersLogged.put(user,wkr);
 
     }
 
     public void removeLogged(String user) {
-        System.out.println("Removemos user: " +user);
         this.usersLogged.remove(user);
     }
 
@@ -63,7 +56,6 @@ public class SoundCloud {
     }
 
     public boolean register(String user, String pw) {
-        System.out.println("tou no register da soundcloud");
         lock.lock();
         if(this.utilizadores.containsKey(user)) {
             lock.unlock();
@@ -87,10 +79,7 @@ public class SoundCloud {
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
             Worker w = (Worker)pair.getValue();
-            String s = (String)pair.getKey();
-            System.out.println("User "+s+" vai ser notificado.");
             w.notifica("*** A música "+m.getNome()+" do artista "+m.getArtista()+" foi uploaded! ***");
-            //it.remove();
         }
 
         lock.unlock();
@@ -118,26 +107,11 @@ public class SoundCloud {
         boolean b = false;
         lock.lock();
         if(this.musicas.containsKey(id)){
-            System.out.println("Estou a ver se e possivel");
             this.musicas.get(id).available();
             num_downloads++;
-            System.out.println("Incrementei os downloads");
             while(num_downloads > MAXDOWNLOADS) {
-                System.out.println(num_downloads + "/" + MAXDOWNLOADS);
                 tooMany.await();
             }
-            System.out.println("Ja posso continuar os downloads");
-            System.out.println("E possivel");
-
-            try{
-                System.out.println("Started sleep");
-                Thread.sleep(10000);
-                System.out.println("Stopped sleep");
-            }
-            catch(Exception e) {
-                System.out.println("Erro no sleep");
-            }
-            //verificar se ele nao passou o limite
             b = true;
             this.musicas.get(id).downloaded();
         }
@@ -148,7 +122,6 @@ public class SoundCloud {
     public void finished(){
         lock.lock();
         num_downloads--;
-        System.out.println("Decrementei os downloads");
         tooMany.signalAll();
         lock.unlock();
     }
@@ -175,13 +148,4 @@ public class SoundCloud {
         lock.unlock();
         return ret;
     }
-
-    /*
-    public void addToQueue(int id, String user) throws Exception{
-        lock.lock();
-        //this.num_downloads.put(user,)
-        //this.queue.put(id,user);
-        lock.unlock();
-    }
-    */
 }

@@ -8,7 +8,7 @@ import Cliente.Menu.State;
 public class Writer implements Runnable {
 
     // Variáveis de Instância
-    private final int MAXSIZE = 500; // 500kb max
+    private final int MAXSIZE = 500*1024; // 500kb max
     private Menu menu;
     private BufferedWriter output;
     private Socket sk;
@@ -36,38 +36,27 @@ public class Writer implements Runnable {
     // Dependendo da escolha, executa a ação correspondente do menu atual
     private void parse(Integer choice) throws Exception {
         switch (menu.getState()) {
-        case NOTLOGGED:
-            if (choice == 0) 
-                leave();
-            if (choice == 1)
-                login_signup(1);
-            if (choice == 2)
-                login_signup(2);
-            break;
-        case LOGGED:
-            if (choice == 0) 
-                logout();
-            if (choice == 1)
-                upload(sk);
-            if (choice == 2)
-                download();
-            if (choice == 3)
-                searching();
-            if (choice == 4)
-                //notificacoes();
-            break;
-        case REGISTERING:
-            //menu.show();
-            break;
-        case SEARCHING:
-            //searching();
-            break;
-        case UPLOADING:
-            //menu.show();
-            break;
-        case DOWNLOADING:
-            //menu.show();
-            break;
+            case NOTLOGGED:
+                if (choice == 0)
+                    leave();
+                else if (choice == 1)
+                    login_signup(1);
+                else if (choice == 2)
+                    login_signup(2);
+                break;
+            case LOGGED:
+                if (choice == 0)
+                    logout();
+                else if (choice == 1)
+                    upload();
+                else if (choice == 2)
+                    download();
+                else if (choice == 3)
+                    search();
+                break;
+            default:
+                System.out.println("Erro");
+                break;
         }
     }
 
@@ -110,57 +99,43 @@ public class Writer implements Runnable {
     }
 
     // Upload
-    private void upload(Socket s){
+    private void upload(){
         try {
             String nome = menu.lerDadosUser("Nome: ");
             String artista = menu.lerDadosUser("Artista: ");
             String ano = menu.lerDadosUser("Ano: ");
             String tags = menu.lerTags();
             String file = menu.lerDadosUser("Filename: ");
-            String fileName = "./effects/" + file + ".mp3";     // Linux
-            //String fileName = ".\\effects\\" + file + ".mp3"; // Windows
+            String fileName = "./effects/" + file + ".mp3";
             String query = nome+","+artista+","+ano+","+tags;
 
             File myFile = new File(fileName);
             long filesize = myFile.length();
             int stop = 0;
 
-            //byte[] mybytearray = new byte[(int) myFile.length()];
             byte[] mybytearray = new byte[MAXSIZE];
             output.write("UPLOAD-");
             output.newLine();
             output.flush();
             FileInputStream fis = new FileInputStream(myFile);
             BufferedInputStream bis = new BufferedInputStream(fis);
-            //bis.read(mybytearray, 0, mybytearray.length);
 
-            OutputStream os = s.getOutputStream();
+            OutputStream os = sk.getOutputStream();
             DataOutputStream dos = new DataOutputStream(os);
             DataInputStream dis = new DataInputStream(bis);
             dos.writeUTF(query);
             dos.writeLong(filesize);
-           /* do{
-                stop+=dis.read(mybytearray, offset, (int)Math.min(mybytearray.length, filesize-stop));
-                dos.write(mybytearray, offset, mybytearray.length);
-                dos.flush();
-                //stop+=mybytearray.length;
-                System.out.println("Im currently at: " + stop + "/" + filesize);
-            }while(stop<filesize);
-            */
-           //System.out.println("Filesize inicial: " + filesize);
             while (filesize > 0 && (stop = dis.read(mybytearray, 0, (int) Math.min(MAXSIZE, filesize))) != -1) {
                 dos.write(mybytearray, 0, stop);
-                System.out.println("Im currently at: " + filesize);
                 filesize -= stop;
             }
             dos.flush();
-            //Sending file name and file size to the server
-            System.out.println("File " + fileName + " sent to Server.");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    // pedido de sair do sistema
     private void leave(){
         try{
             output.write("LEAVE-");
@@ -170,10 +145,10 @@ public class Writer implements Runnable {
         catch(Exception e) {
             e.printStackTrace();
         }
-
     }
 
-    private void searching(){
+    // pedido de search
+    private void search(){
         String tags = menu.tags();
         String query = "SEARCH-"+tags;
         try {

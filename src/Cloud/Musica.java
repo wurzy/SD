@@ -1,6 +1,7 @@
 package Cloud;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -24,79 +25,107 @@ public class Musica implements Comparable<Musica> {
         this.ano = ano;
     }
 
-    public synchronized void setId(int id) {
+    public void setId(int id) {
+        lock.lock();
         this.id = id;
+        lock.unlock();
     }
 
-    public synchronized int getAno(){
-        return this.ano;
+    public int getAno(){
+        int ano;
+        lock.lock();
+        ano = this.ano;
+        lock.unlock();
+        return ano;
     }
 
-    public synchronized int getId(){
-        return this.id;
+    public int getId(){
+        int id;
+        lock.lock();
+        id = this.id;
+        lock.unlock();
+        return id;
     }
 
-    public synchronized String getNome(){
-        return this.nome;
+    public String getNome(){
+        String nome;
+        lock.lock();
+        nome = this.nome;
+        lock.unlock();
+        return nome;
     }
 
-    public synchronized String getArtista(){
-        return this.artista;
+    public String getArtista(){
+        String artista;
+        lock.lock();
+        artista = this.artista;
+        lock.unlock();
+        return artista;
     }
 
-    public synchronized ArrayList<String> getTags(){
-        return this.tags;
+    public ArrayList<String> getTags(){
+        ArrayList<String> tags = new ArrayList<>();
+        lock.lock();
+        this.tags.addAll(tags);
+        lock.unlock();
+        return tags;
     }
 
-    public synchronized int getDownloads(){
-        return this.downloads;
+    public int getDownloads(){
+        int downloads;
+        lock.lock();
+        downloads = this.downloads;
+        lock.unlock();
+        return downloads;
     }
 
-    public synchronized void downloaded(){
+    public void downloaded(){
+        lock.lock();
         this.downloads++;
+        lock.unlock();
     }
 
-    public synchronized String toString(){
-        return this.id + " - "
+    public String toString(){
+        String ret;
+        lock.lock();
+        ret = this.id + " - "
                 + this.nome + ", "
                 + this.artista
                 + " (" + this.ano + ") "
                 +this.tags.toString();
-                //+ " {" + this.downloads + "}";
+        lock.unlock();
+        return ret;
     }
 
     public int compareTo(Musica m) {
-        return Integer.compare(this.id,m.getId());
+        int ret;
+        lock.lock();
+        ret = Integer.compare(this.id,m.getId());
+        lock.unlock();
+        return ret;
     }
 
-    public synchronized boolean containsTag(String s){
-        return this.tags.stream().anyMatch(tag -> tag.equals(s));
+    public boolean containsTag(String s){
+        boolean b;
+        lock.lock();
+        b = this.tags.stream().anyMatch(tag -> tag.equals(s));
+        lock.unlock();
+        return b;
     }
 
     public void available() throws Exception{
         lock.lock();
-        System.out.println("Acquired lock");
-        //uploading.unlock();
         while(!this.available) {
-            System.out.println("Im not available yet");
             uploading.await();
-            //wait();
         }
-        //return true;
-        System.out.println("Left the lock loop");
         lock.unlock();
-        System.out.println("Unlocked");
     }
 
     public void allowDownload(){
         lock.lock();
-        System.out.println("Aquired the other lock.");
         this.available = true;
         uploading.signalAll();
         lock.unlock();
-        //this.notifyAll();
-        System.out.println("Unlocked the other lock.");
-        //System.out.println("Notifiquei");
     }
 
 }

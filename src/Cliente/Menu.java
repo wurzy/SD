@@ -30,26 +30,23 @@ public class Menu {
     public void show() {
         switch (state) {
             case NOTLOGGED:
-                //clearScreen();
-                System.out.println("State:" + this.state);
                 System.out.println("+----------------- MENU INICIAL -----------------+\n" +
                         "| 1 - LOG-IN                                     |\n" +
                         "| 2 - REGISTAR                                   |\n" +
                         "| 0 - SAIR                                       |\n" +
                         "+------------------------------------------------+\n");
+                System.out.print("Opção: ");
                 break;
             case LOGGED:
-                //clearScreen();
-                System.out.println("State:" + this.state);
                 System.out.println("+----------------- MENU CLIENTE ------------------+\n" +
                         "| 1 - UPLOAD                                      |\n" +
                         "| 2 - DOWNLOAD                                    |\n" +
                         "| 3 - PROCURAR                                    |\n" +
                         "| 0 - LOGOUT                                      |\n" +
                         "+ ------------------------------------------------+\n");
+                System.out.print("Opção: ");
                 break;
             case REGISTERING:
-                System.out.println("State:" + this.state);
                 System.out.println("+------------------- REGISTAR --------------------+\n" +
                         "|                                                 |\n" +
                         "|            A registar cliente....               |\n" +
@@ -57,10 +54,8 @@ public class Menu {
                         "+ ------------------------------------------------+\n");
                 break;
             case SEARCHING:
-                System.out.println("State:" + this.state);
                 break;
             case UPLOADING:
-                System.out.println("State:" + this.state);
                 System.out.println("+-------------------------------------------------+\n" +
                         "|                                                 |\n" +
                         "|                   Uploading....                 |\n" +
@@ -68,21 +63,18 @@ public class Menu {
                         "+-------------------------------------------------+\n");
                 break;
             case DOWNLOADING:
-                System.out.println("State:" + this.state);
-                System.out.println("+------------------- REGISTAR --------------------+\n" +
+                System.out.println("+-------------------------------------------------+\n" +
                         "|                                                 |\n" +
                         "|                  Downloading....                |\n" +
                         "|                                                 |\n" +
-                        "+ ------------------------------------------------+\n");
+                        "+-------------------------------------------------+\n");
                 break;
         }
-        System.out.println("State:" + this.state);
-        System.out.print("Opção: ");
     }
 
     // Regista a escolha do utilizador, se esta for válida (se não for válida, volta a pedir)
     public Integer choice() {
-        int choice = -1;
+        int choice;
         while((choice = choice2()) == -1) {
             System.out.println("Insira opção válida!");
             System.out.print("Opção: ");
@@ -91,7 +83,7 @@ public class Menu {
     }
 
     private Integer choice2() {
-        int choice = -1;
+        int choice;
         try {
             choice = Integer.parseInt(input.nextLine());
             switch(state){
@@ -142,12 +134,6 @@ public class Menu {
         return listTags;
     }
 
-    // Limpa a consola
-    public void clearScreen() {
-        System.out.println("\033[H\033[2J");
-        System.out.flush();
-    }
-
     public String tags(){
         String tag;
         String tags = "";
@@ -158,14 +144,6 @@ public class Menu {
         tags = tags.substring(0,tags.length()-1);
         return tags;
     }
-
-    public String getConfirm(){
-        System.out.println("Clique numa tecla para confirmar.");
-        System.out.flush();
-        String s = input.nextLine();
-        return s;
-    }
-
 
 	public void notificaUser(String string) {
         System.out.println(string);
