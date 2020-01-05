@@ -164,6 +164,7 @@ public class Menu {
         while(!(tag=input.nextLine()).equals("q")){
             tags+=tag + ",";
         }
+        if(tags.equals("")) return null;
         tags = tags.substring(0,tags.length()-1);
         return tags;
     }

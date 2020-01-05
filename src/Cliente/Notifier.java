@@ -8,7 +8,6 @@ import java.net.Socket;
 public class Notifier implements Runnable {
 
     private Socket socket;
-    //private Menu menu;
 
     public Notifier(Socket s) {
         this.socket = s;
@@ -20,7 +19,9 @@ public class Notifier implements Runnable {
             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             while ((s = input.readLine()) != null) {
                 if (s.equals("STOP")) break;
+                System.out.println();
                 System.out.println(s);
+                System.out.println();
             }
             socket.shutdownInput();
             socket.shutdownOutput();

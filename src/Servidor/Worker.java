@@ -115,8 +115,8 @@ public class Worker implements Runnable {
     }
 
     // Notificar users de Uploads (enviam nome + artista)
-    public void notifica(String s) {
-        Thread notifier = new Thread(new SendNotification(outNotifier,s));
+    public void notifica(String string) {
+        Thread notifier = new Thread(new SendNotification(outNotifier,string));
         notifier.start();
     }
 
@@ -195,6 +195,7 @@ public class Worker implements Runnable {
         createTempDirectory();
         try {
             String filename = app.getMusicaString(Integer.valueOf(input));
+            System.out.println(filename);
             if(filename==null) {
                 out.println("INVALID_ID-");
                 out.flush();
