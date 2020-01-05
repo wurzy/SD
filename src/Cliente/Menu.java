@@ -117,6 +117,27 @@ public class Menu {
         return input.nextLine();
     }
 
+    public int lerIntUser(){
+        int choice;
+        System.out.println("Insira o ID: ");
+        while((choice = lerIntAux()) == -1) {
+            System.out.println("Insira ID válido!");
+            System.out.print("Insira o ID: ");
+        }
+        return choice;
+    }
+
+    public int lerIntAux() {
+        int res;
+        try {
+            res = Integer.parseInt(input.nextLine());
+        }
+        catch(NumberFormatException e) {
+            res = -1;
+        }
+        return res;
+    }
+
     // Le tags, mas serializa com %
     public String lerTags() {
         String listTags = "";
@@ -132,7 +153,6 @@ public class Menu {
             System.out.println("Deseja inserir mais tags? S/N");
             sn = input.nextLine();
         }
-        System.out.println(listTags);
         return listTags;
     }
 

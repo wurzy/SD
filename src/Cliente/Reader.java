@@ -51,7 +51,7 @@ public class Reader implements Runnable{
                 menu.show();
                 break;
             case("INVALID_ID"):
-                System.out.println("ID Inválido!");
+                System.out.println("ID da música não existe!");
                 menu.setState(State.LOGGED);
                 menu.show();
                 break;
@@ -139,14 +139,12 @@ public class Reader implements Runnable{
             OutputStream output = new FileOutputStream((temp2 + fileName + ".mp3"));
             long size = clientData.readLong();
             byte[] buffer = new byte[MAXSIZE];
-
             while (size > 0 && (bytesRead = clientData.read(buffer, 0, (int) Math.min(MAXSIZE, size))) != -1) {
                 output.write(buffer, 0, bytesRead);
                 size -= bytesRead;
             }
-
             output.close();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }

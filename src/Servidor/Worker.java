@@ -17,13 +17,17 @@ public class Worker implements Runnable {
     private PrintWriter out;
     private Socket s;
     private SoundCloud app;
+    private Socket notifier;
+    private PrintWriter outNotifier;
 
     // Construtor
-    public Worker(Socket s, SoundCloud sc) throws IOException {
+    public Worker(Socket s, SoundCloud sc,Socket notifier) throws IOException {
         this.in = new BufferedReader(new InputStreamReader(s.getInputStream()));
         this.out = new PrintWriter(s.getOutputStream());
         this.s = s;
         this.app = sc;
+        this.notifier = notifier;
+        this.outNotifier = new PrintWriter(notifier.getOutputStream());
     }
 
     // fica a ler input até a conexao fechar
@@ -112,8 +116,8 @@ public class Worker implements Runnable {
 
     // Notificar users de Uploads (enviam nome + artista)
     public void notifica(String s) {
-        out.println("NOTIFICA-"+s);
-        out.flush();
+        Thread notifier = new Thread(new SendNotification(outNotifier,s));
+        notifier.start();
     }
 
     // Envia o resultado do pedido de search para o cliente
@@ -232,6 +236,8 @@ public class Worker implements Runnable {
     private void leave(){
         out.println("LEAVE-");
         out.flush();
+        outNotifier.println("STOP");
+        outNotifier.flush();
     }
 
 

@@ -89,7 +89,8 @@ public class Writer implements Runnable {
     // Pedido de download de um ficheiro dado o seu id
     private void download() {
         try {
-            String nrFile = menu.lerDadosUser("Nº File: ");
+            //String nrFile = menu.lerDadosUser("Nº File: ");
+            int nrFile = menu.lerIntUser();
             output.write("DOWNLOAD-" + nrFile);
             output.newLine();
             output.flush();
@@ -110,6 +111,7 @@ public class Writer implements Runnable {
             String query = nome+","+artista+","+ano+","+tags;
 
             File myFile = new File(fileName);
+
             long filesize = myFile.length();
             int stop = 0;
 
@@ -130,7 +132,10 @@ public class Writer implements Runnable {
                 filesize -= stop;
             }
             dos.flush();
-        } catch (Exception e) {
+        } catch (FileNotFoundException fic) {
+            System.out.println("Ficheiro inválido!");
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
